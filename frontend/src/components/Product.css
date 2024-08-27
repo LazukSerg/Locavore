@@ -1,0 +1,74 @@
+.product {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 16px;
+    width: 20%;
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.product-row {
+    padding-top: 15px;
+}
+
+.product-width {
+    width: 10%;
+}
+
+.product-padding {
+    padding-top: 20px;
+}
+
+.product-img {
+    width: 50%;
+    border-radius: 12px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+}
+
+.text {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+
+    color: #000000;
+    background: #EA5EE5;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 0;
+    text-align: center;
+}
+
+.small-margin {
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.align-center {
+    text-align: center;
+}
+
+
+.product-count-flex {
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0px;
+    gap: 32px;
+    height: 58px;
+    width: 75%;
+    background: #EA5EE5;
+    border-radius: 20px;
+}
+
+.product-count {
+    padding-top: 15px;
+}
+
+
+
