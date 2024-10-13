@@ -20,15 +20,6 @@ function Header() {
     getUser()
   }, [])
 
-  // const getCategories = categories => {
-  //   let content = [];
-  //   for (let i = 0; i < 4; i++) {
-  //     const data = categories[i]
-  //     content.push(<Category key={i} id={data.id} image={data.image} title={data.title}/>)
-  //   }
-  //   return content
-  // };
-
   return (
           <div>
             <div className="header">
@@ -47,8 +38,7 @@ function Header() {
                 <div className="dropdown-content">
                   <Link className='dropdown-item' to={`/about`}>О НАС</Link>
                   <Link className='dropdown-item' to={`/profile`}>МОЙ ПРОФИЛЬ</Link>
-                  <Link className='dropdown-item' to={`/orders`}>ЗАКАЗЫ</Link>
-                  <Link className='dropdown-item' to={`/catalog`}>КАТАЛОГ ПРОДУКЦИИ</Link>
+                  <Link className='dropdown-item' to={`/home`}>КАТАЛОГ ПРОДУКЦИИ</Link>
                   <Link className='dropdown-item' to={`/contacts`}>КОНТАКТЫ</Link>
                   <Link className='dropdown-item' onClick={() => EventBus.dispatch("logout")} to={`/login`}>ВЫЙТИ</Link>
                   
@@ -63,41 +53,3 @@ function Header() {
 }
 
 export default withRouter(Header);
-
-// export default class Home extends Component {
-//   constructor(props) {
-//     super(props);
-
-//     this.state = {
-//       content: ""
-//     };
-//   }
-
-//   componentDidMount() {
-//     UserService.getPublicContent().then(
-//       response => {
-//         this.setState({
-//           content: response.data
-//         });
-//       },
-//       error => {
-//         this.setState({
-//           content:
-//             (error.response && error.response.data) ||
-//             error.message ||
-//             error.toString()
-//         });
-//       }
-//     );
-//   }
-
-//   render() {
-//     return (
-//       <div style={{backgroundImage: "url(/background-transformed.png)" }} className="back">
-//         {/* <header className="jumbotron">
-//           <h3>{this.state.content}</h3>
-//         </header> */}
-//       </div>
-//     );
-//   }
-// }

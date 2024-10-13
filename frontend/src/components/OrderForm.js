@@ -1,15 +1,32 @@
-// import "./Form.css"
 import "./OrderForm.css"
 import { useForm } from "react-hook-form"
 import React, { useState, useEffect} from 'react';
+import Modal from 'react-modal';
 import store from '../store.js';
 import AuthService from "../services/auth.service";
 import userService from "../services/user.service.js";
+import OrderService from "../services/order.service.js";
 
 function OrderForm(props) {
 
     const [products, setProducts] = useState('');
     const [currentUser, setCurrentUser] = useState('');
+
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    
+    const closeModal = () => {
+        console.log(modalIsOpen)
+        setModalIsOpen(false);
+        console.log(modalIsOpen)
+    };
+
+    const modalContent = (
+        <div>
+        <p>Заказ оформлен. Специалист свяжется с вами в течении суток.</p>
+        <button className='modal-close' onClick={closeModal}>ОК</button>
+        </div>
+    );
+
 
     useEffect(() => {
         const getUser = async() => {
@@ -57,22 +74,20 @@ function OrderForm(props) {
 
 
     const onSubmit = async(data) => {
-        console.log(JSON.stringify(data))
-
-
-        // const count = store.getState().cart.map(item => item.quantity).reduce((acc, quantity) => acc + quantity)
-        // const total = store.getState().cart.map(item => item.quantity * (item.discont_price ? item.discont_price : item.price)).reduce((acc, quantity) => acc + quantity)
-
-        // data.count = count
-        // data.total = total
-        // data.productIds = store.getState().cart.map(item => item.id)
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        };
-        const response = await fetch('http://localhost:8080/order/send', requestOptions);
-        const rs = await response.json();
+        data.dateOfCreation = new Date().toLocaleDateString()
+        data.countPosition = products && products.map(it => it.count).reduce((a,v) => a = a + v, 0)
+        data.totalOrder = products && products.map(it => it.price * it.count).reduce((a,v) =>  a = a + v , 0 )
+        data.userId = currentUser && currentUser["id"]
+        data.userEmail = currentUser && currentUser["email"]
+        data.userPhone = currentUser && currentUser["phoneNumber"]
+        
+        data.products = Object.fromEntries(products && products.reduce((acc, item) => acc.set(item.id, item), new Map()));
+        var result = OrderService.createOrder(data)
+        result.then(response => {
+            if (response.data.id != null) {
+                setModalIsOpen(true)
+            }
+          });
     }
 
 
@@ -100,25 +115,25 @@ function OrderForm(props) {
                 <tbody>
                     <tr>
                         <td className="order-form-text-center order-form-user-key">Клиент</td>
-                        <td className="order-form-text-center order-form-user-value" {...register("date-pickup", { required: false })}>{currentUser && currentUser["username"]}</td>
+                        <td className="order-form-text-center order-form-user-value" {...register("userId", { required: false })}>{currentUser && currentUser["username"]}</td>
                     </tr>
                     <tr>
                         <td className="order-form-text-center order-form-user-key">Эл. почта</td>
-                        <td className="order-form-text-center order-form-user-value" {...register("date-pickup", { required: false })}>{currentUser && currentUser["email"]}</td>
+                        <td className="order-form-text-center order-form-user-value" {...register("email", { required: false })}>{currentUser && currentUser["email"]}</td>
                     </tr>
                     <tr>
                         <td className="order-form-text-center order-form-user-key">Моб. телефон</td>
-                        <td className="order-form-text-center order-form-user-value" {...register("date-pickup", { required: false })}>{currentUser && currentUser["phoneNumber"]}</td>
+                        <td className="order-form-text-center order-form-user-value" {...register("phoneNumber", { required: false })}>{currentUser && currentUser["phoneNumber"]}</td>
                     </tr>
                     <tr>
                         <td className="order-form-text-center order-form-user-key">Дата самовывоза</td>
-                        <td><input className="order-form-text-center order-form-user-value" placeholder="Дата" {...register("date-pickup", { required: true })} /></td>
+                        <td><input className="order-form-text-center order-form-user-value" placeholder="Дата" {...register("dateOfPickUp", { required: true })} /></td>
                     </tr>
                 </tbody>
             
             </table>
 
-            <table className="order-form-body" /*className='products-table'*/>
+            <table className="order-form-body">
                 <thead> 
                     <tr>
                         <th className="order-form-product-col-1 order-form-product-head">Заказанная продукция</th>
@@ -132,20 +147,11 @@ function OrderForm(props) {
                 </tbody>
             </table>
             <input value={"Создать заказ"} type="submit" />
-            
-            {/* <a className="order-header">Order details</a>
-            <a className="count">{store.getState().cart.map(item => item.quantity).reduce((acc, quantity) => acc + quantity)} items</a>
-            <div className="total-flex">
-                <a className="total">Total</a>
-                <a className="total-value">{store.getState().cart.map(item => item.quantity * (item.discont_price ? item.discont_price : item.price)).reduce((acc, quantity) => acc + quantity)}</a>
-            </div>
-            <input className="btn-card form-border color" placeholder="Name" {...register("name", { required: true })} />
-            <input className="btn-card form-border color" placeholder="Phone Number" {...register("phone", { required: true })} />
-            <input className="btn-card form-border color" placeholder="Email" {...register("email", { required: true })} />
-
-            {errors.exampleRequired && <span>This field is required</span>}
-    
-            <input className={`button ${discountColor}`} value={discountText} type="submit" /> */}
+            {/* {modalIsOpen == true &&  */}
+                <Modal isOpen={modalIsOpen}>
+                    {modalContent}
+                </Modal>
+            {/* } */}
         </form>
       )
 }

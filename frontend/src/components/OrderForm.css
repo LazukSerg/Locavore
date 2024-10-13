@@ -20,103 +20,8 @@
     justify-content: center;
     align-items: center;
     gap: 15px;
-    /* margin-left: auto;
-    margin-right: auto; */
-    /* text-align: center; */
-    /* display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 0px;
-    gap: 32px;
     
-    width: 100%;
-    padding-bottom: 20px;
-    
-    order: 1;
-    flex-grow: 0; */
 }
-/*
-.form-border {
-    border: 1px solid black;
-    width: 100%;
-}
-
-.color {
-    color: black;
-}
-
-.w {
-    width: 100%;
-}
-
-.order-header {
-    width: 484px;
-    height: 44px;
-
-    font-family: 'Montserrat';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 40px;
-    line-height: 110%;
-    color: #282828;
-}
-
-::placeholder {
-    color: #a9a9a9
-}
-
-.count {
-    width: 152px;
-    height: 52px;
-
-    font-family: 'Montserrat';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 40px;
-    line-height: 130%;
-    color: #8B8B8B;
-}
-
-.total-flex {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: baseline;
-    padding: 0px;
-    gap: 32px;
-    
-    width: 484px;
-    height: 70px;
-}
-
-.total {
-    width: 99px;
-
-    font-family: 'Montserrat';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 40px;
-    line-height: 130%;
-    color: #8B8B8B;
-}
-
-.total-value {
-    width: 250px;
-    height: 70px;
-
-    font-family: 'Montserrat';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 64px;
-    line-height: 110%;
-    color: #282828;
-}
-
-.total-value::before {
-    content: '$';
-} */
-
-
 
 .order-form-header {
     width: 60%;
@@ -147,13 +52,7 @@ border-radius: 20px;
 }
 
 .order-form-header-value {
-    /* width: 109px; */
-/* height: 50px; */
-/* left: 405px; */
-/* top: 121px; */
-/* margin: 15px; */
 padding: 5px 10px 5px 10px;
-/* padding: 5px; */
 background: rgba(234, 94, 229, 0.6);
 border-radius: 20px;
     font-family: 'Montserrat';
@@ -247,9 +146,6 @@ font-style: normal;
 font-weight: 400;
 font-size: 24px;
 line-height: 29px;
-/* display: flex;
-align-items: center;
-justify-content: center; */
 text-align: center;
 margin-top: 5px;
 border: none;
