@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "users", 
     uniqueConstraints = { 
 //      @UniqueConstraint(columnNames = "username"),
@@ -36,20 +37,21 @@ public class User {
   @Size(max = 120)
   private String password;
 
-  @ManyToMany(fetch = FetchType.LAZY)
-  @JoinTable(  name = "user_roles", 
-        joinColumns = @JoinColumn(name = "user_id"), 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinTable(  name = "user_roles",
+        joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "role_id"))
-  private Set<Role> roles = new HashSet<>();
+  private Role role = null;
 
   public User() {
   }
 
-  public User(String username, String phoneNumber, String email, String password) {
+  public User(String username, String phoneNumber, String email, String password, Role role) {
     this.username = username;
     this.phoneNumber = phoneNumber;
     this.email = email;
     this.password = password;
+    this.role = role;
   }
 
   public Long getId() {
@@ -92,11 +94,11 @@ public class User {
     this.password = password;
   }
 
-  public Set<Role> getRoles() {
-    return roles;
+  public Role getRole() {
+    return role;
   }
 
-  public void setRoles(Set<Role> roles) {
-    this.roles = roles;
+  public void setRole(Role role) {
+    this.role = role;
   }
 }

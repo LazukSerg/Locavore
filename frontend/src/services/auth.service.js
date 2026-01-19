@@ -22,13 +22,28 @@ class AuthService {
     localStorage.removeItem("user");
   }
 
-  register(username, email, phoneNumber, password) {
-    return axios.post(API_URL + "signup", {
+  register(username, email, phoneNumber, password, seller, firstName, lastName, region, settlement, street, building) {
+    let data = {
       username,
       email,
       phoneNumber,
-      password
-    });
+      password,
+      role: seller ? "seller" : "buyer"
+    };
+
+    // Добавляем дополнительные поля только если seller = true
+    if (seller) {
+      Object.assign(data, {
+        firstName,
+        lastName,
+        region,
+        settlement,
+        street,
+        building
+      });
+    }
+
+    return axios.post(API_URL + "signup", data);
   }
 
   getCurrentUser() {

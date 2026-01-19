@@ -7,7 +7,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.1.0</version>
-		<relativePath /> <!-- lookup parent from repository -->
+		<relativePath />
 	</parent>
 	<groupId>ru.lazukserg</groupId>
 	<artifactId>locavore</artifactId>
@@ -38,7 +38,6 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
@@ -82,6 +81,12 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.42</version>
 		</dependency>
 	</dependencies>
 

@@ -1,6 +1,7 @@
 package ru.lazukserg.locavore.models;
 
 public enum ERole {
-  ROLE_USER,
+  ROLE_BUYER,
+  ROLE_SELLER,
   ROLE_ADMIN
 }

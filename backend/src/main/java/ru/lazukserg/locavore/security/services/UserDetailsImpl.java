@@ -3,7 +3,9 @@ package ru.lazukserg.locavore.security.services;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -36,13 +38,13 @@ public class UserDetailsImpl implements UserDetails {
   }
 
   public static UserDetailsImpl build(User user) {
-    List<GrantedAuthority> authorities = user.getRoles().stream()
+    List<GrantedAuthority> authorities = Stream.of(user.getRole())
         .map(role -> new SimpleGrantedAuthority(role.getName().name()))
         .collect(Collectors.toList());
 
     return new UserDetailsImpl(
-        user.getId(), 
-        user.getUsername(), 
+        user.getId(),
+        user.getUsername(),
         user.getEmail(),
         user.getPassword(), 
         authorities);

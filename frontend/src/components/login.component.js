@@ -89,7 +89,7 @@ class Login extends Component {
     return (
       <div className="card card-container">
         <div className="head">
-          <Link className="button" to={`/register`}>Авторизация</Link>
+          <Link className="button" to={`/login`}>Авторизация</Link>
           <Link className="button" to={`/register`}>Регистрация</Link>
         </div>
         <p className="name">ФЕРМА "ЛОКАВОРСТВО"</p>
