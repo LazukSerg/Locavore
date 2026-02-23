@@ -2,12 +2,14 @@ package ru.lazukserg.locavore.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 
 import java.util.HashSet;
 import java.util.Set;
 
 
 @Entity
+@Data
 @Table(name = "category")
 public class Category {
     @Id
@@ -33,36 +35,4 @@ public class Category {
         this.name = name;
         this.image = image;
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-//    public Set<Product> getProducts() {
-//        return products;
-//    }
-//
-//    public void setProducts(Set<Product> products) {
-//        this.products = products;
-//    }
 }

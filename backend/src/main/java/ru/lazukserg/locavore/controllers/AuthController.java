@@ -21,10 +21,13 @@ import ru.lazukserg.locavore.payload.request.LoginRequest;
 import ru.lazukserg.locavore.payload.request.SignupRequest;
 import ru.lazukserg.locavore.payload.response.JwtResponse;
 import ru.lazukserg.locavore.payload.response.MessageResponse;
+import ru.lazukserg.locavore.repository.RegionRepository;
 import ru.lazukserg.locavore.repository.RoleRepository;
 import ru.lazukserg.locavore.repository.UserRepository;
 import ru.lazukserg.locavore.security.jwt.JwtUtils;
 import ru.lazukserg.locavore.security.services.UserDetailsImpl;
+
+import static ru.lazukserg.locavore.models.ERegion.valueOfString;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -38,6 +41,9 @@ public class AuthController {
 
   @Autowired
   RoleRepository roleRepository;
+
+  @Autowired
+  RegionRepository regionRepository;
 
   @Autowired
   PasswordEncoder encoder;
@@ -86,13 +92,15 @@ public class AuthController {
       case "seller":
         Role sellerRole = roleRepository.findByName(ERole.ROLE_SELLER)
                 .orElseThrow(() -> new RuntimeException("Ошибка: Роль Продавец не найдена в базе данных."));
+        Region region = regionRepository.findByName(valueOfString(request.getRegion()))
+                .orElseThrow(() -> new RuntimeException("Ошибка: регион отсутствует в базе данных."));
         user = new Seller(
                 request.getUsername(),
                 request.getPhoneNumber(),
                 request.getEmail(),
                 encoder.encode(request.getPassword()),
                 sellerRole,
-                request.getRegion(),
+                region,
                 request.getSettlement(),
                 request.getStreet(),
                 request.getBuilding(),

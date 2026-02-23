@@ -5,12 +5,14 @@ import "./App.css";
 
 import AuthService from "./services/auth.service";
 
-import Login from "./components/login.component";
-import Register from "./components/register.component";
-import Home from "./components/home.component";
+import Login from "./pages/login.component";
+import Register from "./pages/register.component";
+import Home from "./pages/home.component";
 import EventBus from "./common/EventBus";
 import ProductsCategory from "./components/ProductsCategory";
-import ShoppingCart from "./components/ShoppingCart";
+import ShoppingCart from "./pages/ShoppingCart";
+import ProductInfo from "./pages/ProductInfo";
+import ProductsSeller from "./pages/ProductsSeller";
 
 function App() {
 
@@ -33,13 +35,14 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
             <Route path="/category/:id" element={<ProductsCategory />} />
+            <Route path="/product/:id" element={<ProductInfo />} />
             <Route path="/bucket" element={<ShoppingCart />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/productsSeller/:id" element={<ProductsSeller />} />
           </Routes>
-        </div>
+      </div>
     );
-  // }
 }
 
 export default App;

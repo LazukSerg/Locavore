@@ -1,4 +1,4 @@
-import { ADD_TO_CART, UPDATE_CART, DELETE_FROM_CART } from '../actions/cart-actions';
+import { ADD_TO_CART, UPDATE_CART, DELETE_FROM_CART, CLEAR_CART } from '../actions/cart-actions';
 
 const initialState = { cart: [] } 
 
@@ -13,6 +13,10 @@ export default function(state=initialState, action) {
         case DELETE_FROM_CART: { 
             return { ...state, cart: state.cart.filter(item => item.id !== action.payload.id) } 
         } 
+        case CLEAR_CART: {
+            return { ...state, cart: [] };
+        }
+            
         default: 
             return state; 
     } 

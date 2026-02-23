@@ -1,3 +1,23 @@
+.all-products-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-content: center;
+    justify-content: flex-start;
+    padding: 0px;
+    padding-left: 15px;
+    gap: 65px;
+    width: 100%;
+    padding: 0px;
+    padding-top: 50px;
+    padding-left: 50px;
+    padding-right: 50px;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
 .row-categories {
     display: flex;
     flex-direction: row;
@@ -184,6 +204,11 @@
     margin-top: auto;
 
     color: #000000;
+    background-color: rgb(80, 227, 64);
+    border-radius: 15px;
+    padding: 5px;
+    margin-bottom: 0;
+    text-align: center;
 }
 
 .modal-close {

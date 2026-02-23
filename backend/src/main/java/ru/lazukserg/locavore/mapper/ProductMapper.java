@@ -1,0 +1,35 @@
+package ru.lazukserg.locavore.mapper;
+
+import org.springframework.stereotype.Component;
+import ru.lazukserg.locavore.models.Product;
+import ru.lazukserg.locavore.models.pl.CategoryDTO;
+import ru.lazukserg.locavore.models.pl.ProductDTO;
+import ru.lazukserg.locavore.models.pl.RegionDTO;
+import ru.lazukserg.locavore.models.pl.SellerDTO;
+
+@Component
+public class ProductMapper {
+
+    public ProductDTO toPl(Product product) {
+        return ProductDTO.builder()
+                .id(product.getId())
+                .title(product.getTitle())
+                .image(product.getImage())
+                .structure(product.getStructure())
+                .description(product.getDescription())
+                .price(product.getPrice())
+                .seller(SellerDTO.builder()
+                        .id(product.getSeller().getId())
+                        .build())
+                .category(CategoryDTO.builder()
+                        .id(product.getCategory().getId())
+                        .name(product.getCategory().getName())
+                        .build())
+                .region(RegionDTO.builder()
+                        .id(product.getRegion().getId())
+                        .name(product.getRegion().getName().getDisplayName())
+                        .build())
+                .local(product.isLocal())
+                .build();
+    }
+}

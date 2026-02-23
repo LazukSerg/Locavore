@@ -77,3 +77,10 @@
     align-self: stretch;
     flex-grow: 0;
 }
+
+.fixed-element {
+  position: fixed;
+  bottom: 30px;   /* отступ от нижнего края */
+  right: 30px;    /* отступ от правого края */
+  z-index: 1000;
+}

@@ -1,18 +1,112 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-import { isEmail } from "validator";
+import { isEmail, isMobilePhone, isMobilePhoneLocales } from "validator";
 import { Link } from "react-router-dom";
+import Select from "react-select";
 
 import AuthService from "../services/auth.service";
 import "./register.css"
+
+// Добавляем массив регионов для фильтрации
+const regionsOptions = [
+  { label: 'Республика Адыгея', value: 'RESPUBLIKA_ADYGEYA' },
+  { label: 'Республика Алтай', value: 'RESPUBLIKA_ALTAY' },
+  { label: 'Республика Башкортостан', value: 'RESPUBLIKA_BASHKORTOSTAN' },
+  { label: 'Республика Бурятия', value: 'RESPUBLIKA_BURYATIA' },
+  { label: 'Республика Дагестан', value: 'RESPUBLIKA_DAGESTAN' },
+  { label: 'Республика Ингушетия', value: 'RESPUBLIKA_INGUSHETIYA' },
+  { label: 'Кабардино-Балкарская Республика', value: 'KABARDINO_BALKARSKAYA_RESPUBLIKA' },
+  { label: 'Республика Калмыкия', value: 'RESPUBLIKA_KALMYKIA' },
+  { label: 'Карачаево-Черкесская Республика', value: 'KARACHAEVO_CHERKESSKAYA_RESPUBLIKA' },
+  { label: 'Республика Карелия', value: 'RESPUBLIKA_KARELYA' },
+  { label: 'Республика Коми', value: 'RESPUBLIKA_KOMI' },
+  { label: 'Республика Крым', value: 'RESPUBLIKA_KRYM' },
+  { label: 'Республика Марий Эл', value: 'RESPUBLIKA_MARI_EL' },
+  { label: 'Республика Мордовия', value: 'RESPUBLIKA_MORDOVIA' },
+  { label: 'Республика Саха (Якутия)', value: 'RESPUBLIKA_SAKHA_YAKUTIYA' },
+  { label: 'Республика Северная Осетия — Алания', value: 'RESPUBLIKA_SEVERNAYA_OSETIYA_ALANIA' },
+  { label: 'Республика Татарстан', value: 'RESPUBLIKA_TATARSTAN' },
+  { label: 'Республика Тыва', value: 'RESPUBLIKA_TYVA' },
+  { label: 'Удмуртская Республика', value: 'UDMURTSKAYA_RESPUBLIKA' },
+  { label: 'Республика Хакасия', value: 'RESPUBLIKA_KHAKASIA' },
+  { label: 'Чеченская Республика', value: 'CHECHENSKAYA_RESPUBLIKA' },
+  { label: 'Чувашская Республика', value: 'CHUVASHSKAYA_RESPUBLIKA' },
+  { label: 'Донецкая Народная Республика', value: 'DONETSKAYA_NARODNAYA_RESPUBLIKA' },
+  { label: 'Луганская Народная Республика', value: 'LUGANSKAYA_NARODNAYA_RESPUBLIKA' },
+  { label: 'Алтайский край', value: 'ALTAYSKIY_KRAY' },
+  { label: 'Забайкальский край', value: 'ZABAYKALSKIY_KRAY' },
+  { label: 'Камчатский край', value: 'KAMCHATSKIY_KRAY' },
+  { label: 'Краснодарский край', value: 'KRASNODARSKIY_KRAY' },
+  { label: 'Красноярский край', value: 'KRASNOYARSKIY_KRAY' },
+  { label: 'Пермский край', value: 'PERMSKIY_KRAY' },
+  { label: 'Приморский край', value: 'PRIMORSKIY_KRAY' },
+  { label: 'Ставропольский край', value: 'STAVROPOLSKIY_KRAY' },
+  { label: 'Хабаровский край', value: 'KHABAROVSKIY_KRAY' },
+  { label: 'Амурская область', value: 'AMURSKAYA_OBLAST' },
+  { label: 'Архангельская область', value: 'ARKHANGELSKAYA_OBLAST' },
+  { label: 'Астраханская область', value: 'ASTRAKHANSKAYA_OBLAST' },
+  { label: 'Белгородская область', value: 'BELGORODSKAYA_OBLAST' },
+  { label: 'Брянская область', value: 'BRYANSKAYA_OBLAST' },
+  { label: 'Владимирская область', value: 'VLADIMIRSKAYA_OBLAST' },
+  { label: 'Волгоградская область', value: 'VOLGOGRADSKAYA_OBLAST' },
+  { label: 'Вологодская область', value: 'VOLOGODSKAYA_OBLAST' },
+  { label: 'Воронежская область', value: 'VORONEZHSKAYA_OBLAST' },
+  { label: 'Ивановская область', value: 'IVANOVSKAYA_OBLAST' },
+  { label: 'Иркутская область', value: 'IRKUTSKAYA_OBLAST' },
+  { label: 'Калининградская область', value: 'KALININGRADSKAYA_OBLAST' },
+  { label: 'Калужская область', value: 'KALUZHSKAYA_OBLAST' },
+  { label: 'Кемеровская область — Кузбасс', value: 'KEMEROVSKAYA_OBLAST_KUZBASS' },
+  { label: 'Кировская область', value: 'KIROVSKAYA_OBLAST' },
+  { label: 'Костромская область', value: 'KOSTROMSKAYA_OBLAST' },
+  { label: 'Курганская область', value: 'KURGANSKAYA_OBLAST' },
+  { label: 'Курская область', value: 'KURSKAYA_OBLAST' },
+  { label: 'Ленинградская область', value: 'LENINGRADSKAYA_OBLAST' },
+  { label: 'Липецкая область', value: 'LIPETSKAYA_OBLAST' },
+  { label: 'Магаданская область', value: 'MAGADANSKAYA_OBLAST' },
+  { label: 'Московская область', value: 'MOSKOVSKAYA_OBLAST' },
+  { label: 'Мурманская область', value: 'MURMANSKAYA_OBLAST' },
+  { label: 'Нижегородская область', value: 'NIZHEGORODSKAYA_OBLAST' },
+  { label: 'Новгородская область', value: 'NOVGORODSKAYA_OBLAST' },
+  { label: 'Новосибирская область', value: 'NOVOSIBIRSKAYA_OBLAST' },
+  { label: 'Омская область', value: 'OMSKAYA_OBLAST' },
+  { label: 'Оренбургская область', value: 'ORENBURGSKAYA_OBLAST' },
+  { label: 'Орловская область', value: 'ORLOVSKAYA_OBLAST' },
+  { label: 'Пензенская область', value: 'PENZENSKAYA_OBLAST' },
+  { label: 'Псковская область', value: 'PSKOVSKAYA_OBLAST' },
+  { label: 'Ростовская область', value: 'ROSTOVSKAYA_OBLAST' },
+  { label: 'Рязанская область', value: 'RYAZANSKAYA_OBLAST' },
+  { label: 'Самарская область', value: 'SAMARSKAYA_OBLAST' },
+  { label: 'Саратовская область', value: 'SARATOVSKAYA_OBLAST' },
+  { label: 'Сахалинская область', value: 'SAKHALINSKAYA_OBLAST' },
+  { label: 'Свердловская область', value: 'SVERDLOVSKAYA_OBLAST' },
+  { label: 'Смоленская область', value: 'SMОЛENSKAYA_OBLAST' },
+  { label: 'Тамбовская область', value: 'TАМBOVSKAYA_OBLAST' },
+  { label: 'Тверская область', value: 'TVERSKAYA_OBLAST' },
+  { label: 'Томская область', value: 'TOMSKAYA_OBLAST' },
+  { label: 'Тульская область', value: 'TULSKAYA_OBLAST' },
+  { label: 'Тюменская область', value: 'TYUMENSKAYA_OBLAST' },
+  { label: 'Ульяновская область', value: 'ULJANOVSKAYA_OBLAST' },
+  { label: 'Челябинская область', value: 'CHELYABINSKAYA_OBLAST' },
+  { label: 'Ярославская область', value: 'YAROSLAVSKAYA_OBLAST' },
+  { label: 'Город Москва', value: 'GOROD_MOSKVA' },
+  { label: 'Город Санкт-Петербург', value: 'GOROD_SANKT_PETERBURG' },
+  { label: 'Город Севастополь', value: 'GOROD_SEVASTOPOL' },
+  { label: 'Еврейская автономная область', value: 'YEVREYSKAYA_AVTONOMNAYA_OBLAST' },
+  { label: 'Ненецкий автономный округ', value: 'NENETSKIY_AVTONOMNYY_OKRUG' },
+  { label: 'Ханты-Мансийский автономный округ — Югра', value: 'KHANTY_MANSIYSKIY_AVTONOMNYY_OKRUG_YUGRA' },
+  { label: 'Чукотский автономный округ', value: 'CHUKOTSKIY_AVTONOMNYY_OKRUG' },
+  { label: 'Ямало-Ненецкий автономный округ', value: 'YAMALO_NENETSKIY_AVTONOMNYY_OKRUG' },
+  { label: 'Запорожская область', value: 'ZAPOROZHSKAYA_OBLAST' },
+  { label: 'Херсонская область', value: 'KHERSONSKAYA_OBLAST' }
+];
 
 const required = value => {
   if (!value || value.trim().length === 0) {
     return (
       <div className="alert alert-danger" role="alert">
-        This field is required!
+        Это обязательное поле!
       </div>
     );
   }
@@ -22,17 +116,17 @@ const email = value => {
   if (!isEmail(value)) {
     return (
       <div className="alert alert-danger" role="alert">
-        This is not a valid email.
+        Не является электронным почтовым адресом.
       </div>
     );
   }
 };
 
 const phone = value => {
-  if (value.length < 3) {
+  if (value.length < 10) {
     return (
       <div className="alert alert-danger" role="alert">
-        This is not a valid phone.
+        Не является номером телефона.
       </div>
     );
   }
@@ -42,7 +136,7 @@ const vusername = value => {
   if (value.length < 3 || value.length > 20) {
     return (
       <div className="alert alert-danger" role="alert">
-        The username must be between 3 and 20 characters.
+        Имя пользователя должно быть от 3 до 20 символов
       </div>
     );
   }
@@ -52,31 +146,12 @@ const vpassword = value => {
   if (value.length < 6 || value.length > 40) {
     return (
       <div className="alert alert-danger" role="alert">
-        The password must be between 6 and 40 characters.
+        Пароль должен быть от 6 до 40 символов.
       </div>
     );
   }
 };
 
-// const firstName = value => {
-//   if (value.length < 1) {
-//     return (
-//       <div className="alert alert-danger" role="alert">
-//         Обязательный атрибут.
-//       </div>
-//     );
-//   }
-// };
-
-// const lastName = value => {
-//   if (value.length < 1) {
-//     return (
-//       <div className="alert alert-danger" role="alert">
-//         Обязательный атрибут.
-//       </div>
-//     );
-//   }
-// };
 
 export default class Register extends Component {
   constructor(props) {
@@ -153,10 +228,12 @@ export default class Register extends Component {
     });
   }
 
-  onChangeRegion(e) {
-    this.setState({
-      region: e.target.value
-    });
+  onChangeRegion(selectedOption) {
+    if (selectedOption) {
+      this.setState({ region: selectedOption.value });
+    } else {
+      this.setState({ region: '' });
+    }
   }
 
   onChangeSettlement(e) {
@@ -229,10 +306,10 @@ export default class Register extends Component {
       <div className="col-md-12">
         <div className="card card-container">
         <div className="head">
-          <Link className="button" to={`/login`}>Авторизация</Link>
+          <Link className="button" to={`/login`}>Вход</Link>
           <Link className="button" to={`/register`}>Регистрация</Link>
         </div>
-        <p className="name">ФЕРМА "ЛОКАВОРСТВО"</p>
+        <p className="name">"ЛОКАВОРСТВО"</p>
 
           <Form
             onSubmit={this.handleRegister}
@@ -330,18 +407,21 @@ export default class Register extends Component {
 
                     <div className="form-group">
                       <label htmlFor="region">Регион</label>
-                      <Input
-                        type="text"
-                        className="form-control"
+                      <Select
+                        options={regionsOptions}
                         name="region"
-                        value={this.state.region}
+                        value={regionsOptions.find(opt => opt.value === this.state.region)}
                         onChange={this.onChangeRegion}
+                        filterOption={(option, inputValue) =>
+                          option.label.toLowerCase().startsWith(inputValue.toLowerCase())
+                        }
+                        placeholder="Выберите регион"
                         validations={[this.state.seller ? required : ""]}
                       />
                     </div>
 
                     <div className="form-group">
-                      <label htmlFor="region">Населённый пункт</label>
+                      <label htmlFor="settlement">Населённый пункт</label>
                       <Input
                         type="text"
                         className="form-control"
@@ -353,19 +433,18 @@ export default class Register extends Component {
                     </div>
 
                     <div className="form-group">
-                      <label htmlFor="region">Улица</label>
+                      <label htmlFor="street">Улица</label>
                       <Input
                         type="text"
                         className="form-control"
                         name="street"
                         value={this.state.street}
                         onChange={this.onChangeStreet}
-                        // validations={[this.state.seller ? required : ""]}
                       />
                     </div>
 
                     <div className="form-group">
-                      <label htmlFor="region">Дом</label>
+                      <label htmlFor="building">Дом</label>
                       <Input
                         type="text"
                         className="form-control"

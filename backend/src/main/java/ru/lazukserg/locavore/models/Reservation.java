@@ -1,12 +1,16 @@
 package ru.lazukserg.locavore.models;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 import java.util.Map;
 
 @Entity
 @Table(name = "reservation")
+@Getter
+@Setter
 public class Reservation  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +26,10 @@ public class Reservation  {
 
     private int totalOrder;
 
+//    @JoinColumn(name = "seller_id")
     private Long userId;
+
+    private Long sellerId;
 
     @ElementCollection
     @CollectionTable(name = "reservation_product_mapping",
@@ -43,63 +50,6 @@ public class Reservation  {
         this.countPosition = countPosition;
         this.totalOrder = totalOrder;
         this.userId = userId;
-        this.products = products;
-    }
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getDateOfCreation() {
-        return dateOfCreation;
-    }
-
-    public void setDateOfCreation(String dateOfCreation) {
-        this.dateOfCreation = dateOfCreation;
-    }
-
-    public String getDateOfPickUp() {
-        return dateOfPickUp;
-    }
-
-    public void setDateOfPickUp(String dateOfPickUp) {
-        this.dateOfPickUp = dateOfPickUp;
-    }
-
-    public int getCountPosition() {
-        return countPosition;
-    }
-
-    public void setCountPosition(int countPosition) {
-        this.countPosition = countPosition;
-    }
-
-    public int getTotalOrder() {
-        return totalOrder;
-    }
-
-    public void setTotalOrder(int totalOrder) {
-        this.totalOrder = totalOrder;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public Map<Long, Integer> getProducts() {
-        return products;
-    }
-
-    public void setProducts(Map<Long, Integer> products) {
         this.products = products;
     }
 

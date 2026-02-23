@@ -1,12 +1,12 @@
-import './base.css';
+import '../components/base.css';
 import './ShoppingCart.css';
 import Modal from 'react-modal';
-import Header from './header.component'
-import OrderForm from './OrderForm.js';
+import Header from '../components/header.component.js'
+import OrderForm from '../components/OrderForm.js';
 import React, { useState, useEffect} from 'react';
 import { Link, useParams } from 'react-router-dom';
-import Product from './Product';
-import { withRouter } from '../common/with-router';
+import Product from '../components/Product.js';
+import { withRouter } from '../common/with-router.js';
 import store from '../store.js';
 
 function ShoppingCart() {
@@ -56,11 +56,11 @@ function ShoppingCart() {
 
 
   return (
-    <div style={{backgroundImage: "url(/background.png)" }} className="back">
+    <div className={products ? 'back-for-basket' : 'back'}>
       <Header key = "a" />
       
-      <div className='products-container'>
-        <table className='products-table'>
+      <div className='all-products-list'>
+        {/* <table className='products-table'>
           <thead>
             <tr>
               <th className='product-header header-width-25' colSpan="2">ТОВАР</th>
@@ -69,12 +69,15 @@ function ShoppingCart() {
               <th className='product-header header-width-10'>ИТОГО</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody> */}
             {products && (getProducts(products))}
-          </tbody>
+          {/* </tbody> */}
           
-        </table>
-        <div className='total-flex'>
+        {/* </table> */}
+        
+  
+      </div>
+      <div className='total-flex'>
           <div className='total'>Итого: {products && products.map(it => it.price * it.count).reduce((a,v) =>  a = a + v , 0 )}</div>
           <div className='button-cart-next button-back-green'>
             <div className='button-text' onClick={openModal}>Продолжить оформление</div>
@@ -83,8 +86,6 @@ function ShoppingCart() {
             </Modal>
           </div>
         </div>
-  
-      </div>
       <div className='button-next button-back button-back-yellow'>
           <Link  to={'/home'}>
             <div className='button-text'>Вернуться на главную страницу</div>

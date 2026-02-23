@@ -2,11 +2,13 @@ package ru.lazukserg.locavore.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Data
 @Table(name = "product")
 public class Product {
     @Id
@@ -21,10 +23,21 @@ public class Product {
 
     private String structure;
 
+    private String description;
+
     private int price;
 
     @ManyToOne
+    @JoinColumn(name = "seller_id")
+    private Seller seller;
+
+    @ManyToOne
     private Category category;
+
+    @ManyToOne
+    private Region region;
+
+    private boolean local;
 
     public Product() {
     }
@@ -37,52 +50,5 @@ public class Product {
         this.category = category;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getStructure() {
-        return structure;
-    }
-
-    public void setStructure(String structure) {
-        this.structure = structure;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
 }
 

@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -16,7 +17,8 @@ import java.util.Set;
 @Table(name = "seller")
 public class Seller extends User {
 
-  private String region;
+  @ManyToOne
+  private Region region;
 
   private String city;
 
@@ -28,10 +30,16 @@ public class Seller extends User {
 
   private String lastName;
 
+  @OneToMany(mappedBy = "seller")
+  private List<Product> products;
+
+  @OneToMany
+  private List<Reservation> reservations;
+
   public Seller() {
   }
 
-  public Seller(String username, String phoneNumber, String email, String password, Role role, String region, String city, String street, String building, String firstName, String lastName) {
+  public Seller(String username, String phoneNumber, String email, String password, Role role, Region region, String city, String street, String building, String firstName, String lastName) {
     super(username, phoneNumber, email, password, role);
     this.region = region;
     this.city = city;

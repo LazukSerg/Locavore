@@ -1,4 +1,30 @@
 .back {
-    height: 100vh;
+    background-image: url(../../public/image.jpeg);
+background-size: cover;        /* Растягивает изображение на весь экран */
+    background-repeat: no-repeat;   /* Запрещает повторение */
+    background-attachment: scroll;  /* Фон прокручивается с контентом (значение по умолчанию) */
+    background-position: center;    /* Центрирует изображение */
+    min-height: 100vh;              /* Минимальная высота на весь экран */
+}
+
+.back-for-basket {
     background-repeat: round;
+    background-image: url(../../public/image.jpeg);
+background-size: cover;        /* Растягивает изображение на весь экран */
+    background-repeat: no-repeat;   /* Запрещает повторение */
+    background-attachment: scroll;  /* Фон прокручивается с контентом (значение по умолчанию) */
+    background-position: center;    /* Центрирует изображение */
+    min-height: 100vh;              /* Минимальная высота на весь экран */
+}
+
+
+
+html {
+    margin: 0;
+    background-image: url(../../public/image.jpeg);
+background-size: cover;        /* Растягивает изображение на весь экран */
+    background-repeat: no-repeat;   /* Запрещает повторение */
+    background-attachment: scroll;  /* Фон прокручивается с контентом (значение по умолчанию) */
+    background-position: center;    /* Центрирует изображение */
+    min-height: 100vh;              /* Минимальная высота на весь экран */
 }

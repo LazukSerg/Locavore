@@ -2,25 +2,25 @@ package ru.lazukserg.locavore.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import ru.lazukserg.locavore.utils.ERegionConverter;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "region")
 @Data
-public class Role {
+public class Region {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
   @Enumerated(EnumType.STRING)
-  @Column(length = 20)
-  private ERole name;
+  @Column
+  private ERegion name;
 
-  public Role() {
+  public Region() {
 
   }
 
-  public Role(ERole name) {
+  public Region(ERegion name) {
     this.name = name;
   }
-
 }

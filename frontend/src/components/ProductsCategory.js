@@ -74,7 +74,7 @@ function ProductsCategory() {
 
 
   return (
-    <div style={{backgroundImage: "url(/background.png)" }} className="back">
+    <div /*style={{backgroundImage: "url(/background.png)" }}*/ className="back">
       <Header key = "a" />
       <div className='row-categories'>
         {categories && (getCategories(categories))}

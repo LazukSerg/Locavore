@@ -89,10 +89,10 @@ class Login extends Component {
     return (
       <div className="card card-container">
         <div className="head">
-          <Link className="button" to={`/login`}>Авторизация</Link>
+          <Link className="button" to={`/login`}>Вход</Link>
           <Link className="button" to={`/register`}>Регистрация</Link>
         </div>
-        <p className="name">ФЕРМА "ЛОКАВОРСТВО"</p>
+        <p className="name">"ЛОКАВОРСТВО"</p>
         <Form
             onSubmit={this.handleLogin}
             ref={c => {
@@ -131,7 +131,7 @@ class Login extends Component {
                 {this.state.loading && (
                   <span className="spinner-border spinner-border-sm"></span>
                 )}
-                <span>Авторизоваться</span>
+                <span>Войти</span>
               </button>
             </div>
 
