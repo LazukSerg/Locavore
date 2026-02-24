@@ -8,12 +8,25 @@ import userService from "../services/user.service.js";
 import OrderService from "../services/order.service.js";
 
 function OrderForm(props) {
-
+    const sellerId = props.sellerId
     const [products, setProducts] = useState('');
     const [currentUser, setCurrentUser] = useState('');
+    const [seller, setSeller] = useState('');
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    // const [orderCompleted, setOrderCompleted] = useState(false);
+    // const [pickupDate, setPickupDate] = useState('');
     
+
+    // const handleCloseModal = () => {
+    //     setModalIsOpen(false);
+        // Закрыть всю форму и вернуться к корзине или на главную
+        // if (props.onClose) {
+        //     props.onClose();  // Вызвать callback из родительского компонента
+        // }
+    // }
+
+
     const closeModal = () => {
         console.log(modalIsOpen)
         setModalIsOpen(false);
@@ -21,9 +34,10 @@ function OrderForm(props) {
     };
 
     const modalContent = (
-        <div>
-        <p>Заказ оформлен. Специалист свяжется с вами в течении суток.</p>
-        <button className='modal-close' onClick={closeModal}>ОК</button>
+        <div className="modal-centered">
+            <p>Заказ оформлен. Ожидайте подтверждения заказа. При необходимости с вами свяжется продавец.</p>
+            {/* <button className='modal-close' onClick={closeModal}>ОК</button> */}
+            <button className='modal-close' onClick={closeModal}>ОК</button>
         </div>
     );
 
@@ -34,8 +48,14 @@ function OrderForm(props) {
             const fullUser = await userService.getById(user["id"]);
             setCurrentUser(fullUser.data)
         }
+        const getSeller = async() => {
+            console.log(sellerId)
+            const res = await userService.getById(sellerId);
+            setSeller(res.data)
+        }
+        getSeller()
         getUser()
-    }, [])
+    }, [sellerId])
 
     useEffect(() => {
         const rqProducts = async() => {
@@ -77,19 +97,22 @@ function OrderForm(props) {
         data.dateOfCreation = new Date().toLocaleDateString()
         data.countPosition = products && products.map(it => it.count).reduce((a,v) => a = a + v, 0)
         data.totalOrder = products && products.map(it => it.price * it.count).reduce((a,v) =>  a = a + v , 0 )
-        data.userId = currentUser && currentUser["id"]
-        data.userEmail = currentUser && currentUser["email"]
-        data.userPhone = currentUser && currentUser["phoneNumber"]
+        data.buyerId = currentUser && currentUser["id"]
+        data.buyerEmail = currentUser && currentUser["email"]
+        data.buyerPhone = currentUser && currentUser["phoneNumber"]
+        data.status = "Новый"
         
         data.products = Object.fromEntries(products && products.reduce((acc, item) => acc.set(item.id, item), new Map()));
-        var result = OrderService.createOrder(data)
+        data.sellerId = sellerId;
+        var result = OrderService.createOrder(data)  // Добавил await
         result.then(response => {
-            if (response.data.id != null) {
+            if (response.data != null) {
                 setModalIsOpen(true)
             }
           });
     }
 
+    
 
     return (
         <form className="order-form-2" onSubmit={handleSubmit(onSubmit)}>
@@ -114,20 +137,36 @@ function OrderForm(props) {
                  </thead>
                 <tbody>
                     <tr>
+                        <td className="order-form-text-center order-form-user-key">Продавец</td>
+                        <td className="order-form-text-center order-form-user-value">{seller && seller["username"]}</td>
+                    </tr>
+                    <tr>
                         <td className="order-form-text-center order-form-user-key">Клиент</td>
-                        <td className="order-form-text-center order-form-user-value" {...register("userId", { required: false })}>{currentUser && currentUser["username"]}</td>
+                        <td className="order-form-text-center order-form-user-value">{currentUser && currentUser["username"]}</td>
                     </tr>
                     <tr>
                         <td className="order-form-text-center order-form-user-key">Эл. почта</td>
-                        <td className="order-form-text-center order-form-user-value" {...register("email", { required: false })}>{currentUser && currentUser["email"]}</td>
+                        <td className="order-form-text-center order-form-user-value">{currentUser && currentUser["email"]}</td>
                     </tr>
                     <tr>
                         <td className="order-form-text-center order-form-user-key">Моб. телефон</td>
-                        <td className="order-form-text-center order-form-user-value" {...register("phoneNumber", { required: false })}>{currentUser && currentUser["phoneNumber"]}</td>
+                        <td className="order-form-text-center order-form-user-value">{currentUser && currentUser["phoneNumber"]}</td>
                     </tr>
                     <tr>
                         <td className="order-form-text-center order-form-user-key">Дата самовывоза</td>
-                        <td><input className="order-form-text-center order-form-user-value" placeholder="Дата" {...register("dateOfPickUp", { required: true })} /></td>
+                        <td>
+                            <input
+                                type="date"
+                                min={new Date().toISOString().split('T')[0]}
+                                className="order-form-text-center order-form-user-value"
+                                placeholder="Дата"
+                                {...register("dateOfPickUp", { 
+                                  required: true,
+                                  valueAsDate: false // Сохраняем как строку
+                                })}
+                            />
+                        </td>
+                        {/* <td><input className="order-form-text-center order-form-user-value" placeholder="Дата" {...register("dateOfPickUp", { required: true })} /></td> */}
                     </tr>
                 </tbody>
             

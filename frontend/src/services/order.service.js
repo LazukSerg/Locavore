@@ -8,6 +8,10 @@ class OrderService {
   createOrder(data) {
     return axios.post(API_URL + '/create', data, { headers: authHeader() });
   }
+
+  getOrdersByUser(buyerId) {
+    return axios.get(API_URL + `/all-by-buyer/${buyerId}`, { headers: authHeader() });
+  }
 }
 
 export default new OrderService();

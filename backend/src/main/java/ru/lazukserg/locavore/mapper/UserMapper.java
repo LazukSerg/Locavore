@@ -46,6 +46,7 @@ public class UserMapper {
         return UserDTO.builder()
                 .id(user.getId())
                 .username(user.getUsername())
+                .email(user.getEmail())
                 .phoneNumber(user.getPhoneNumber())
                 .build();
     }

@@ -24,7 +24,7 @@ function Header() {
           <div>
             <div className="header">
               <div>
-                <h1 className="title">ФЕРМА "ЛОКАВОРСТВО"</h1>
+                <h1 className="title">"ЛОКАВОРСТВО"</h1>
                 <p className="subtitle">Для ценителей продукции со своей грядки</p>
               </div>
               <button className="auth-button">
@@ -39,6 +39,9 @@ function Header() {
                   <Link className='dropdown-item' to={`/about`}>О НАС</Link>
                   <Link className='dropdown-item' to={`/profile`}>МОЙ ПРОФИЛЬ</Link>
                   <Link className='dropdown-item' to={`/home`}>КАТАЛОГ ПРОДУКЦИИ</Link>
+                  {currentUser && (
+                    <Link className='dropdown-item' to={`/orders`}>МОИ ЗАКАЗЫ</Link>
+                  )}
                   <Link className='dropdown-item' to={`/contacts`}>КОНТАКТЫ</Link>
                   <Link className='dropdown-item' onClick={() => EventBus.dispatch("logout")} to={`/login`}>ВЫЙТИ</Link>
                   

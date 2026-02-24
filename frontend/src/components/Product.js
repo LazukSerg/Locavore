@@ -20,20 +20,18 @@ function Product(props) {
   }, [cartItems, item.id]);
 
   // функция для уменьшения количества товара
-  const decrement = () => {
+  const decrement = (item) => {
     if (count <= 0) return;
     if (count === 1) {
       dispatch(deleteFromCart(item.id)); // удаляем товар из корзины
     } else {
-      dispatch(updateCart(item.id, item.title, count - 1, item.price, item.image, item.seller.id)); // уменьшаем количество
+      dispatch(updateCart(item.id, item.title, count - 1, item.price, item.image, item.seller !== undefined ? item.seller.id : item.seller_id)); // уменьшаем количество
     }
   };
 
   // функция для увеличения количества товара
-  const increment = () => {
+  const increment = (item) => {
     if (count === 0) {
-      console.log(cartItems)
-      console.log(item)
       const hasDifferentSeller = cartItems.length > 0 && 
         cartItems.some(cartItem => cartItem.seller_id !== item.seller.id);
 
@@ -52,7 +50,9 @@ function Product(props) {
 
       dispatch(addToCart(item.id, item.title, 1, item.price, item.image, item.seller.id)); // добавляем новый товар
     } else {
-      dispatch(updateCart(item.id, item.title, count + 1, item.price, item.image, item.seller.id)); // увеличиваем количество
+      console.log(item)
+      console.log(item.seller)
+      dispatch(updateCart(item.id, item.title, count + 1, item.price, item.image, item.seller !== undefined ? item.seller.id : item.seller_id)); // увеличиваем количество
     }
   };
 

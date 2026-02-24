@@ -1,8 +1,10 @@
 package ru.lazukserg.locavore.payload.request;
 
+import lombok.Data;
+
 import java.util.Map;
 
-
+@Data
 public class Order {
 
     private Long id;
@@ -15,10 +17,13 @@ public class Order {
 
     private int totalOrder;
 
-    private Long userId;
-    private String userPhone;
+    private String status;
+    private Long buyerId;
+    private Long sellerId;
+//    private String sellerUserName;
+    private String buyerPhone;
 
-    private String userEmail;
+    private String buyerEmail;
 
     private Map<Long, Product> products;
 
@@ -35,77 +40,7 @@ public class Order {
 //        this.products = products;
 //    }
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getDateOfCreation() {
-        return dateOfCreation;
-    }
-
-    public void setDateOfCreation(String dateOfCreation) {
-        this.dateOfCreation = dateOfCreation;
-    }
-
-    public String getDateOfPickUp() {
-        return dateOfPickUp;
-    }
-
-    public void setDateOfPickUp(String dateOfPickUp) {
-        this.dateOfPickUp = dateOfPickUp;
-    }
-
-    public int getCountPosition() {
-        return countPosition;
-    }
-
-    public void setCountPosition(int countPosition) {
-        this.countPosition = countPosition;
-    }
-
-    public int getTotalOrder() {
-        return totalOrder;
-    }
-
-    public void setTotalOrder(int totalOrder) {
-        this.totalOrder = totalOrder;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public Map<Long, Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(Map<Long, Product> products) {
-        this.products = products;
-    }
-
-    public String getUserEmail() {
-        return userEmail;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
-    }
-
-    public String getUserPhone() {
-        return userPhone;
-    }
-
-    public void setUserPhone(String userPhone) {
-        this.userPhone = userPhone;
-    }
 
     //    @Override
 //    public String toString() {

@@ -7,8 +7,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, Link, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'; // Импортируем хуки Redux
 import store from '../store.js';
-import { addToCart, updateCart, deleteFromCart } from '../actions/cart-actions.js';
+import { addToCart, updateCart, deleteFromCart, clearCart } from '../actions/cart-actions.js';
 import ProductService from '../services/product.service.js';
+import Footer from '../components/Footer.js';
 
 
 function ProductInfo() {
@@ -50,16 +51,32 @@ function ProductInfo() {
       if (count === 1) {
         dispatch(deleteFromCart(product.id)); // удаляем товар из корзины
       } else {
-        dispatch(updateCart(product.id, product.title, count - 1, product.price, product.image)); // уменьшаем количество
+        dispatch(updateCart(product.id, product.title, count - 1, product.price, product.image, product.seller.id)); // уменьшаем количество
       }
     };
   
     // функция для увеличения количества товара
     const increment = () => {
       if (count === 0) {
-        dispatch(addToCart(product.id, product.title, 1, product.price, product.image)); // добавляем новый товар
+        const hasDifferentSeller = cartItems.length > 0 && 
+                cartItems.some(cartItem => cartItem.seller_id !== product.seller.id);
+        
+              if (hasDifferentSeller) {
+                const userConfirmed = window.confirm(
+                  'В вашей корзине уже есть товары от другого продавца. Хотите очистить корзину и добавить товар от текущего продавца?'
+                );
+        
+                if (userConfirmed) {
+                  dispatch(clearCart()); // очищаем корзину
+                  dispatch(addToCart(product.id, product.title, 1, product.price, product.image, product.seller.id)); // добавляем новый товар
+                }
+                // если пользователь отказался - ничего не делаем
+                return;
+              }
+        
+        dispatch(addToCart(product.id, product.title, 1, product.price, product.image, product.seller.id)); // добавляем новый товар
       } else {
-        dispatch(updateCart(product.id, product.title, count + 1, product.price, product.image)); // увеличиваем количество
+        dispatch(updateCart(product.id, product.title, count + 1, product.price, product.image, product.seller.id)); // увеличиваем количество
       }
     };
 
@@ -107,6 +124,7 @@ function ProductInfo() {
                 </div>
         </Link>
       </div>
+      <Footer/>
     </div>
   );
 }

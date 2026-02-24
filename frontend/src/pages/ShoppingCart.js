@@ -4,15 +4,25 @@ import Modal from 'react-modal';
 import Header from '../components/header.component.js'
 import OrderForm from '../components/OrderForm.js';
 import React, { useState, useEffect} from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate  } from 'react-router-dom';
 import Product from '../components/Product.js';
 import { withRouter } from '../common/with-router.js';
 import store from '../store.js';
+import Footer from '../components/Footer.js';
 
 function ShoppingCart() {
 
+  // const navigate = useNavigate();
   const [products, setProducts] = useState(store.getState().cart);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  // const handleOrderComplete = () => {
+  //   closeModal();  // Закрыть модальное окно в ShoppingCart
+  //   // Можно также очистить корзину или перенаправить пользователя
+  //   store.dispatch({ type: 'CLEAR_CART' });
+  //       // Перенаправить на главную
+  //       navigate('/home');
+  // }
 
   const openModal = () => {
     setModalIsOpen(true);
@@ -27,7 +37,9 @@ function ShoppingCart() {
   const modalContent = (
     <div>
       <button className='modal-close' onClick={closeModal}>Закрыть</button>
-      <OrderForm/>
+      {products?.[0]?.seller_id && (<OrderForm sellerId={products[0].seller_id}/>)}
+      {/* {products?.[0]?.seller_id && (<OrderForm sellerId={products[0].seller_id} /*onClose={handleOrderComplete} />)} */}
+      {/* <OrderForm sellerId={products[0].seller_id}/> */}
     </div>
   );
   
@@ -38,7 +50,6 @@ function ShoppingCart() {
 
   useEffect(() => {
     const rqProducts = async() => {
-      console.log(store.getState().cart.length)
       const response = await store.getState().cart;
       setProducts(response)
     }
@@ -60,20 +71,7 @@ function ShoppingCart() {
       <Header key = "a" />
       
       <div className='all-products-list'>
-        {/* <table className='products-table'>
-          <thead>
-            <tr>
-              <th className='product-header header-width-25' colSpan="2">ТОВАР</th>
-              <th className='product-header'>ЦЕНА</th>
-              <th className='product-header header-width-10'>КОЛИЧЕСТВО</th>
-              <th className='product-header header-width-10'>ИТОГО</th>
-            </tr>
-          </thead>
-          <tbody> */}
             {products && (getProducts(products))}
-          {/* </tbody> */}
-          
-        {/* </table> */}
         
   
       </div>
@@ -91,7 +89,9 @@ function ShoppingCart() {
             <div className='button-text'>Вернуться на главную страницу</div>
           </Link>
         </div>
+        <Footer/>
      </div>
+     
   );
 }
 export default withRouter(ShoppingCart);

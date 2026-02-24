@@ -1,3 +1,18 @@
+ .modal-centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  text-align: center;
+  z-index: 1000;
+  min-width: 300px;
+  max-width: 500px;
+}
+ 
  .order-form {
     display: flex;
     flex-direction: column;
@@ -151,6 +166,63 @@ margin-top: 5px;
 border: none;
 
 color: #000000;
+}
+
+
+
+
+
+/* Переопределяем стили React Modal */
+.custom-modal-overlay.ReactModal__Overlay {
+  background-color: rgba(0, 0, 0, 0.7) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.custom-modal-content.ReactModal__Content {
+  background-color: #4CAF50 !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 15px !important;
+  max-width: 500px !important;
+  width: 90% !important;
+  padding: 30px !important;
+  position: relative !important;
+  inset: auto !important;
+  margin: 0 !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Стили для содержимого */
+.custom-modal-content .modal-content {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.custom-modal-content h2 {
+  color: white;
+  margin-bottom: 15px;
+}
+
+.custom-modal-content p {
+  color: white;
+  margin-bottom: 20px;
+}
+
+.custom-modal-content button {
+  background-color: white;
+  color: #4CAF50;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.custom-modal-content button:hover {
+  background-color: #f0f0f0;
 }
 
 

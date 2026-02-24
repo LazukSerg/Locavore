@@ -26,10 +26,14 @@ public class Reservation  {
 
     private int totalOrder;
 
-//    @JoinColumn(name = "seller_id")
-    private Long userId;
+    private String status;
 
-    private Long sellerId;
+//    @JoinColumn(name = "seller_id")
+    private Long buyerId;
+
+    @ManyToOne
+    @JoinColumn(name = "seller_id")
+    private Seller seller;
 
     @ElementCollection
     @CollectionTable(name = "reservation_product_mapping",
@@ -43,13 +47,15 @@ public class Reservation  {
     public Reservation () {
     }
 
-    public Reservation(Long id, String dateOfCreation, String dateOfPickUp, int countPosition, int totalOrder, Long userId, Map<Long, Integer> products) {
+    public Reservation(Long id, String dateOfCreation, String dateOfPickUp, int countPosition, int totalOrder, String status, Long buyerId, Seller seller, Map<Long, Integer> products) {
         this.id = id;
         this.dateOfCreation = dateOfCreation;
         this.dateOfPickUp = dateOfPickUp;
         this.countPosition = countPosition;
         this.totalOrder = totalOrder;
-        this.userId = userId;
+        this.status = status;
+        this.buyerId = buyerId;
+        this.seller = seller;
         this.products = products;
     }
 
@@ -61,7 +67,9 @@ public class Reservation  {
                 ", dateOfPickUp='" + dateOfPickUp + '\'' +
                 ", countPosition=" + countPosition +
                 ", totalOrder=" + totalOrder +
-                ", userId=" + userId +
+                ", status='" + status + '\'' +
+                ", buyerId=" + buyerId +
+                ", seller=" + seller +
                 ", products=" + products +
                 '}';
     }

@@ -6,11 +6,17 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
+import ru.lazukserg.locavore.mapper.OrderMapper;
+import ru.lazukserg.locavore.models.Product;
 import ru.lazukserg.locavore.models.Reservation;
+import ru.lazukserg.locavore.models.pl.ProductDTO;
+import ru.lazukserg.locavore.models.pl.ReservationDTO;
 import ru.lazukserg.locavore.payload.request.Order;
 import ru.lazukserg.locavore.repository.OrderRepository;
+import ru.lazukserg.locavore.repository.SellerRepository;
 import ru.lazukserg.locavore.utils.MailUtils;
 
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -23,10 +29,17 @@ public class OrderController {
   OrderRepository orderRepository;
 
   @Autowired
+  SellerRepository sellerRepository;
+
+  @Autowired
+  OrderMapper orderMapper;
+
+  @Autowired
   MailSender  mailSender;
 
   @PostMapping(value = "/create")
-  public Reservation createOrder(@RequestBody Order order) {
+  public Long createOrder(@RequestBody Order order) {
+    var seller = sellerRepository.findById(order.getSellerId()).get();
     var mapProducts = order.getProducts().entrySet().stream()
             .collect(Collectors.toMap(Map.Entry::getKey, (x) -> x.getValue().getCount()));
     Reservation reservation = new Reservation(
@@ -35,7 +48,9 @@ public class OrderController {
             order.getDateOfPickUp(),
             order.getCountPosition(),
             order.getTotalOrder(),
-            order.getUserId(),
+            order.getStatus(),
+            order.getBuyerId(),
+            seller,
             mapProducts
     );
 
@@ -44,7 +59,13 @@ public class OrderController {
     mailSender.send(simpleMail);
     SimpleMailMessage simpleMailToAdmin = MailUtils.createMail(order, result.getId(), true);
     mailSender.send(simpleMailToAdmin);
-    return result;
+    return result.getId();
+  }
+
+  @GetMapping("/all-by-buyer/{id}")
+  public List<ReservationDTO> allOrdersByBuyer(@PathVariable("id") Long id) {
+    List<Reservation> orders = orderRepository.findByBuyerId(id);
+    return orders.stream().map(order -> orderMapper.toPl(order)).toList();
   }
 
 }

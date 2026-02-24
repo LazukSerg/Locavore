@@ -10,6 +10,7 @@ import Category from "../components/Category"
 import Product from "../components/Product";
 import "../components/AllProducts.css"
 import regionService from "../services/region.service";
+import Footer from "../components/Footer";
 
 const API_URL = "http://localhost:8080/api/";
 
@@ -67,23 +68,6 @@ function Home() {
     
     setFilteredSellers(result);
   }, [selectedRegion, selectedCategory, sellers]);
-
-  // const getSellers = sellers => {
-  //     let content = [];
-  //     for (let i = 0; i < sellers.length; i++) {
-  //       const data = sellers[i]
-  //       content.push(
-  //         <Link className="" to={`/productsSeller/${data.id}`} key={i}>
-  //           <div>
-  //             <div>{data.username}</div>
-  //             <div>{data.region.name}</div>
-  //             <div>{`${data.city} ${data.street} ${data.building}`}</div>
-  //           </div>
-  //         </Link>
-  //       )
-  //     }
-  //     return content
-  //   };
 
   return (
     
@@ -175,6 +159,7 @@ function Home() {
           </div>
         </Link>
       </div>
+      <Footer/>
     </div>
   );
 }

@@ -8,78 +8,144 @@ import Header from "../components/header.component";
 import CategoryService from "../services/category.service";
 import Category from "../components/Category"
 import Product from "../components/Product";
-import "../components/AllProducts.css"
+import "../components/AllProducts.css";
+// import "./ProductsSeller.css";
 import productService from "../services/product.service";
+import Footer from "../components/Footer";
 
 const API_URL = "http://localhost:8080/api/";
 
 function Home() {
-
-  const [products, setProducts] = useState('');
-  const [categories, setCategories] = useState('');
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [currentUser, setCurrentUser] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [localOnly, setLocalOnly] = useState(false); // чекбокс: true - только local, false - все
   const { id } = useParams();
 
   useEffect(() => {
     const fetchCategories = async() => {
-      const res = await CategoryService.getAll();
-      setCategories(res.data)
+      try {
+        const res = await CategoryService.getAll();
+        setCategories(res.data || []);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+        setCategories([]);
+      }
     }
+    
     const fetchProducts = async() => {
-      const res = await productService.getAllProducts(id);
-      setProducts(res.data);
+      try {
+        const res = await productService.getAllProducts(id);
+        setProducts(res.data || []);
+        setFilteredProducts(res.data || []);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+        setProducts([]);
+        setFilteredProducts([]);
+      }
     }
+    
     const getUser = async() => {
       const user = await AuthService.getCurrentUser();
       setCurrentUser(user);
     }    
-    getUser()
-    // rs()
-    fetchProducts()
     
-      
-  }, [id])
+    getUser();
+    fetchProducts();
+    fetchCategories();
+  }, [id]);
 
-  const getCategories = categories => {
-    let content = [];
-    for (let i = 0; i < 4; i++) {
-      const data = categories[i]
-      content.push(<Category key={i} id={data.id} image={data.image} name={data.name}/>)
+  // Применение фильтров
+  useEffect(() => {
+    let filtered = [...products];
+    
+    // Фильтр по категории
+    if (selectedCategory) {
+      filtered = filtered.filter(product => 
+        product.category?.name === selectedCategory
+      );
     }
-    return content
-  };
+    
+    // Фильтр по флагу local (чекбокс)
+    if (localOnly) {
+      filtered = filtered.filter(product => product.local === true);
+    }
+    // Если localOnly = false, показываем все товары (без фильтрации по local)
+    
+    setFilteredProducts(filtered);
+  }, [selectedCategory, localOnly, products]);
 
   const getProducts = products => {
-      let content = [];
-      for (let i = 0; i < products.length; i++) {
-        const data = products[i]
-        content.push(<Product key={data.id} item={data} cart={false}/>)
-      }
-      return content
-    };
+    if (!products || products.length === 0) {
+      return <div className="no-results">Товары не найдены</div>;
+    }
+    
+    let content = [];
+    for (let i = 0; i < products.length; i++) {
+      const data = products[i];
+      content.push(<Product key={data.id} item={data} cart={false}/>);
+    }
+    return content;
+  };
+
+  const resetFilters = () => {
+    setSelectedCategory('');
+    setLocalOnly(false);
+  };
 
   return (
-    
     <div className="back">
       <Header/>
-      <div className='categories-list'>
-        {categories && (getCategories(categories))}
+
+      <div className="filters-section">
+
+        <div className="filter-group">
+          <label>Категория:</label>
+          <select 
+            value={selectedCategory} 
+            onChange={(e) => setSelectedCategory(e.target.value)}
+          >
+            <option value="">Все категории</option>
+            {categories.map(category => (
+              <option key={category.id} value={category.name}>{category.name}</option>
+            ))}
+          </select>
+        </div>
+
+        <div className="filter-group checkbox-group">
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              checked={localOnly}
+              onChange={(e) => setLocalOnly(e.target.checked)}
+            />
+            <span>Только локальные товары</span>
+          </label>
+        </div>
+
+        <button 
+          onClick={resetFilters}
+          className="reset-filters-btn"
+        >
+          Сбросить фильтры
+        </button>
       </div>
-      {/* <div className='all-products-flex'> */}
 
-      
-        <div className='all-products-list'>
-          {products && (getProducts(products))}
-        </div>        
+      {/* Список товаров */}
+      <div className='all-products-list'>
+        {filteredProducts && getProducts(filteredProducts)}
+      </div>
 
-      {/* </div> */}
       <div className="down-container fixed-element">
         <Link to={currentUser ? `/bucket` : '/login'}>
           <div className="wrapper-bucket bucket">
-            <img src="/корзина.jpeg"></img>
+            <img src="/корзина.jpeg" alt="Корзина"></img>
           </div>
         </Link>
       </div>
+      <Footer/>
     </div>
   );
 }

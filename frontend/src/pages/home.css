@@ -272,7 +272,7 @@
   color: #000000;
   cursor: pointer;
   /* transition: all 0.3s ease; */
-  margin-left: auto;
+  /* margin-left: auto; */
   white-space: nowrap;
 }
 

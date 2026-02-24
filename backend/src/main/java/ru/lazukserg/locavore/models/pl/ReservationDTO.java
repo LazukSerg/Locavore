@@ -1,9 +1,11 @@
 package ru.lazukserg.locavore.models.pl;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ReservationDTO {
 
@@ -12,6 +14,8 @@ public class ReservationDTO {
     private String dateOfPickUp;
     private int countPosition;
     private int totalOrder;
-    private Long userId;
+    private String status;
+    private Long buyerId;
     private Long sellerId;
+    private String sellerUserName;
 }

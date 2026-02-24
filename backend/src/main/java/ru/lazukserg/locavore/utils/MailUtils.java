@@ -8,7 +8,7 @@ public class MailUtils {
     public static SimpleMailMessage createMail(Order order, Long id, Boolean toAdmin) {
         final SimpleMailMessage simpleMail = new SimpleMailMessage();
         simpleMail.setFrom("Lazykun@mail.ru");
-        simpleMail.setTo(toAdmin ? "Lazykun@mail.ru" : order.getUserEmail());
+        simpleMail.setTo(toAdmin ? "Lazykun@mail.ru" : order.getBuyerEmail());
 //        simpleMail.setTo(toAdmin ? "Lazykun@mail.ru" :"LazukinSS22@st.ithub.ru");
         simpleMail.setSubject("Заказ на сайте \"Локаворство\"");
         if(toAdmin) {
@@ -21,8 +21,8 @@ public class MailUtils {
                     order.getProducts().entrySet().stream().map((it) -> "\n\t\t\t\t" + it.getValue().getTitle() +
                                     " - " + it.getValue().getCount() + " (" + it.getValue().getPrice() + " руб/шт)")
                             .toList().toString().replaceAll("([\\[\\]])", "") +
-                    "\nЭлектронный адрес: " + order.getUserEmail() +
-                    "\nНомер телефона: " + order.getUserPhone()
+                    "\nЭлектронный адрес: " + order.getBuyerEmail() +
+                    "\nНомер телефона: " + order.getBuyerPhone()
             );
         } else {
             simpleMail.setText("Ваш заказ №:" + id +
