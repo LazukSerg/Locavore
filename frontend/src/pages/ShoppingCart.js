@@ -12,17 +12,17 @@ import Footer from '../components/Footer.js';
 
 function ShoppingCart() {
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [products, setProducts] = useState(store.getState().cart);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  // const handleOrderComplete = () => {
-  //   closeModal();  // Закрыть модальное окно в ShoppingCart
-  //   // Можно также очистить корзину или перенаправить пользователя
-  //   store.dispatch({ type: 'CLEAR_CART' });
-  //       // Перенаправить на главную
-  //       navigate('/home');
-  // }
+  const handleOrderComplete = () => {
+    closeModal();  // Закрыть модальное окно в ShoppingCart
+    // Можно также очистить корзину или перенаправить пользователя
+    store.dispatch({ type: 'CLEAR_CART' });
+        // Перенаправить на главную
+    navigate('/home');
+  }
 
   const openModal = () => {
     setModalIsOpen(true);
@@ -37,9 +37,7 @@ function ShoppingCart() {
   const modalContent = (
     <div>
       <button className='modal-close' onClick={closeModal}>Закрыть</button>
-      {products?.[0]?.seller_id && (<OrderForm sellerId={products[0].seller_id}/>)}
-      {/* {products?.[0]?.seller_id && (<OrderForm sellerId={products[0].seller_id} /*onClose={handleOrderComplete} />)} */}
-      {/* <OrderForm sellerId={products[0].seller_id}/> */}
+      {products?.[0]?.seller_id && (<OrderForm sellerId={products[0].seller_id} onClose={handleOrderComplete} />)}
     </div>
   );
   

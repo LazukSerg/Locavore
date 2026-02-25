@@ -22,4 +22,5 @@ public class ProductDTO {
     private CategoryDTO category;
     private RegionDTO region;
     private boolean local;
+    private int quantity;
 }

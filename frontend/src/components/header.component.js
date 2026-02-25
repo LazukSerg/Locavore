@@ -25,7 +25,7 @@ function Header() {
             <div className="header">
               <div>
                 <h1 className="title">"ЛОКАВОРСТВО"</h1>
-                <p className="subtitle">Для ценителей продукции со своей грядки</p>
+                <p className="subtitle">Для ценителей продукции с грядки и подворья</p>
               </div>
               <button className="auth-button">
               {!currentUser && (<Link className='auth-button-text' to={`/login`}>Авторизация</Link>)}
@@ -40,7 +40,8 @@ function Header() {
                   <Link className='dropdown-item' to={`/profile`}>МОЙ ПРОФИЛЬ</Link>
                   <Link className='dropdown-item' to={`/home`}>КАТАЛОГ ПРОДУКЦИИ</Link>
                   {currentUser && (
-                    <Link className='dropdown-item' to={`/orders`}>МОИ ЗАКАЗЫ</Link>
+                    <Link className='dropdown-item'
+                    to={`/orders/${currentUser.id}` }>МОИ ЗАКАЗЫ</Link>
                   )}
                   <Link className='dropdown-item' to={`/contacts`}>КОНТАКТЫ</Link>
                   <Link className='dropdown-item' onClick={() => EventBus.dispatch("logout")} to={`/login`}>ВЫЙТИ</Link>

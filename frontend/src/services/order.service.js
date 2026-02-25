@@ -9,9 +9,18 @@ class OrderService {
     return axios.post(API_URL + '/create', data, { headers: authHeader() });
   }
 
-  getOrdersByUser(buyerId) {
-    return axios.get(API_URL + `/all-by-buyer/${buyerId}`, { headers: authHeader() });
+  getOrdersByUser(role, id) {
+    return axios.get(API_URL + `/all/${role}/${id}`, { headers: authHeader() });
   }
+
+  getOrderById(id) {
+    return axios.get(API_URL + `/${id}`, { headers: authHeader() });
+  }
+
+  updateOrderStatus(id, status) {
+    return axios.patch(API_URL + `/${id}?status=${encodeURIComponent(status)}`, status, { headers: authHeader() });
+  }
+
 }
 
 export default new OrderService();

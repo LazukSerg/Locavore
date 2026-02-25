@@ -76,7 +76,7 @@ function Home() {
 
         <div className="sellers-container">
           {/* Блок фильтров */}
-          <div className="filters-section">
+          <div className="sellers-filters-section">
 
             {/* Фильтр по региону */}
             <div className="filter-group">

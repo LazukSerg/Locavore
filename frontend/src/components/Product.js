@@ -50,8 +50,6 @@ function Product(props) {
 
       dispatch(addToCart(item.id, item.title, 1, item.price, item.image, item.seller.id)); // добавляем новый товар
     } else {
-      console.log(item)
-      console.log(item.seller)
       dispatch(updateCart(item.id, item.title, count + 1, item.price, item.image, item.seller !== undefined ? item.seller.id : item.seller_id)); // увеличиваем количество
     }
   };

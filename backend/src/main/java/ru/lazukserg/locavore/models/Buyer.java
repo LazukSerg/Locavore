@@ -13,7 +13,7 @@ import java.util.Set;
 @Table(name = "buyer")
 public class Buyer extends User {
 
-  @OneToMany
+  @OneToMany(mappedBy = "buyer")
   private List<Reservation> reservations;
 
   public Buyer() {

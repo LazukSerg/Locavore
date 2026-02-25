@@ -1,0 +1,718 @@
+.orders-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+  /* margin-top: 30px; */
+}
+
+/* Карточка продавца */
+/* .order-card {
+  background: rgba(255, 248, 248, 0.84);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  padding: 25px;
+  text-decoration: none;
+  color: #282828;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  border: 0.5px solid transparent;
+} */
+
+.order-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.5);
+  border-color: #000000;
+  text-decoration: none;
+  color: #282828;
+}
+
+.order-card > div:first-child {
+  font-family: 'Playfair Display SC', serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  color: #000000;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.order-card > div {
+  font-family: 'Montserrat', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  color: #282828;
+  line-height: 1.5;
+}
+
+.down-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 40vw;
+    padding-top: 50px;
+}
+
+.category-text {
+    height: 26px;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 130%;
+    text-align: center;
+    color: #282828;
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* Контейнер списка */
+.orders-list {
+  /* display: flex;
+  flex-direction: column;
+  gap: 16px; 
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto; */
+  
+
+  display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-content: center;
+    justify-content: flex-start;
+    padding: 0px;
+    padding-left: 15px;
+    gap: 65px;
+    width: 100%;
+    padding: 0px;
+    padding-top: 50px;
+    padding-left: 50px;
+    padding-right: 50px;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+.order-card-wrapper {
+  position: relative;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.order-card-wrapper:hover {
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.order-card-color-cancelled {
+  background-color: #ed8191; /* Светло-красный фон */
+  /* border: 2px solid #ef2c1e; Красная рамка */
+}
+
+.order-card-color {
+  background-color: rgba(228, 249, 94, 0.955);
+}
+
+/* Карточка продавца */
+.order-card {
+  display: flex;
+  flex-direction: column;
+  /* background-color: rgba(228, 249, 94, 0.955); */
+  border-radius: 8px;
+  padding: 20px;
+  color: black;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.order-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Стили для текста внутри карточки */
+.order-card div {
+  margin-bottom: 8px;
+  font-size: 16px;
+  text-shadow: 0 0 3px white, 0 0 10px white, 0 0 20px white, 0 0 20px white;
+}
+
+.order-card div:last-child {
+  margin-bottom: 0;
+}
+
+/* Стиль для ссылки */
+.order-card a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Основной контейнер */
+.orders-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Блок фильтров в стиле предоставленного кода */
+.orders-filters-section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 32px;
+  padding: 15px 50px;
+  width: 100%;
+  /* background: rgba(255, 255, 255, 0.853);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5); */
+  border-radius: 20px;
+  /* margin-bottom: 40px; */
+  flex-wrap: wrap;
+}
+/* 
+.orders-filters-section h3 {
+  font-family: 'Playfair Display SC', serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  color: #000000;
+  margin: 0;
+  padding-right: 20px;
+  border-right: 2px solid rgba(0, 0, 0, 0.1);
+} */
+
+/* Группа фильтра */
+.filter-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+  background: rgba(255, 248, 248, 0.84);
+  border: 0.5px solid #000000;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  padding: 8px 20px;
+  min-width: 200px;
+}
+
+.filter-group label {
+  font-family: 'Montserrat', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  color: #282828;
+  white-space: nowrap;
+}
+
+.filter-group select {
+  font-family: 'Montserrat', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  color: #282828;
+  background: transparent;
+  border: none;
+  padding: 8px 0;
+  cursor: pointer;
+  outline: none;
+  flex: 1;
+}
+
+.filter-group select:hover {
+  color: #000000;
+  text-decoration: none;
+}
+
+.filter-group select option {
+  background: white;
+  color: #282828;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Кнопка сброса фильтров */
+.reset-filters-btn {
+  background: rgba(221, 255, 0, 0.823);
+  border: 0.5px solid #000000;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  padding: 10px 30px;
+  font-family: 'Playfair Display SC', serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  color: #000000;
+  cursor: pointer;
+  /* transition: all 0.3s ease; */
+  /* margin-left: auto; */
+  white-space: nowrap;
+}
+
+.reset-filters-btn:hover {
+  background: rgba(221, 255, 0, 0.955);
+  color: black;
+  text-decoration: none;
+  /* transform: translateY(-2px); */
+  /* box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.3); */
+}
+
+/* Список продавцов */
+.sellers-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+  /* margin-top: 30px; */
+}
+
+/* Карточка продавца */
+.seller-card {
+  background: rgba(255, 248, 248, 0.84);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  padding: 25px;
+  text-decoration: none;
+  color: #282828;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  border: 0.5px solid transparent;
+}
+
+.seller-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.5);
+  border-color: #000000;
+  text-decoration: none;
+  color: #282828;
+}
+
+.seller-card > div:first-child {
+  font-family: 'Playfair Display SC', serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  color: #000000;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.seller-card > div {
+  font-family: 'Montserrat', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  color: #282828;
+  line-height: 1.5;
+}
+
+/* Блок категорий внутри карточки */
+.seller-card-categories {
+  /* margin-top: 15px; */
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 15px;
+  padding: 15px;
+  border: 0.5px solid rgba(0, 0, 0, 0.1);
+}
+
+.categories-label {
+  font-family: 'Playfair Display SC', serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  color: #000000;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.categories-vertical-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.category-item {
+  font-family: 'Montserrat', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  color: #282828;
+  background: rgba(221, 255, 0, 0.786);
+  padding: 6px 12px;
+  border-radius: 12px;
+  border: 0.5px solid rgba(0, 0, 0, 0.1);
+  /* transition: all 0.2s ease; */
+}
+
+/* .category-item:hover {
+  background: rgba(219, 255, 0, 0.4);
+  transform: translateX(5px);
+  cursor: pointer;
+} */
+
+.no-categories {
+  font-family: 'Montserrat', sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 14px;
+  color: #999;
+  padding: 8px 0;
+}
+
+/* Сообщение об отсутствии результатов */
+.no-results {
+  grid-column: 1 / -1;
+  font-family: 'Playfair Display SC', serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  color: #000000;
+  text-align: center;
+  padding: 60px;
+  background: rgba(255, 248, 248, 0.84);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  margin-top: 30px;
+}
+
+.fixed-element {
+  position: fixed;
+  bottom: 30px;   /* отступ от нижнего края */
+  right: 30px;    /* отступ от правого края */
+  z-index: 1000;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ .modal-centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  text-align: center;
+  z-index: 1000;
+  min-width: 300px;
+  max-width: 500px;
+}
+ 
+ .order-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 32px;
+    
+    width: 100%;
+    padding-bottom: 20px;
+    
+    order: 1;
+    flex-grow: 0;
+    }
+
+.order-info-2 {
+  /* background-color: #d0dcd3de; */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    
+}
+
+.order-info-header {
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.order-info-header-key {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 29px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    padding-left: 7px;
+    padding-right: 7px;
+    
+    color: #000000;
+
+    /* background: #FFFFFD; */
+    background: floralwhite;
+border: 0.5px solid rgba(0, 0, 0, 0.8);
+box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+border-radius: 20px;
+}
+
+.order-info-header-value {
+padding: 5px 10px 5px 10px;
+background: rgba(234, 94, 229, 0.892);
+border-radius: 20px;
+    font-family: 'Montserrat';
+font-style: normal;
+font-weight: 700;
+font-size: 20px;
+line-height: 24px;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #000000;
+}
+
+.order-info-padding-35 {
+    padding-left: 35px;
+    padding-right: 35px;
+}
+
+.margin-left-auto {
+    margin-left: auto;
+}
+
+.order-info-body {
+    width: 60%;
+    border-collapse: separate;
+    border-spacing: 3px 5px;
+}
+
+.order-info-user-col-1 {
+    width: 35%;
+}
+
+.order-info-user-col-2 {
+    width: 65%;
+}
+
+
+.order-info-text-center {
+    text-align: center;
+}
+
+.order-info-user-key {
+    /* background: #FFFFFD; */
+    background: floralwhite;
+border: 0.5px solid rgba(0, 0, 0, 0.8);
+box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+border-radius: 20px;
+font-family: 'Montserrat';
+font-style: normal;
+font-weight: 400;
+font-size: 24px;
+line-height: 29px;
+display: flex;
+align-items: center;
+justify-content: center;
+text-align: center;
+margin-top: 5px;
+
+color: #000000;
+}
+
+.order-info-user-value {
+    width: 100%;
+    height: auto;
+    /* background: #F6F4F4; */
+    background: floralwhite;
+    border-radius: 20px;
+    margin-top: 5px;
+    border: none;
+}
+
+.order-info-table-background {
+  /* text-shadow:  0 0 1px white, 0 0 2px white, 0 0 3px white, 0 0 4px white; */
+      background-color: floralwhite;
+       /* background-color: #F6F4F4; */
+    border-radius: 15px;
+}
+
+.text-align {
+    text-align: center;
+}
+
+.order-info-product-col-1 {
+    width: 35%;
+}
+
+.order-info-product-col-2 {
+    width: 18%;
+    margin-left:5px;
+}
+
+.order-info-product-head {
+    /* background: #FFFFFD; */
+    background: rgb(252, 239, 209);
+border: 0.5px solid rgba(0, 0, 0, 0.8);
+box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+border-radius: 20px;
+font-family: 'Montserrat';
+font-style: normal;
+font-weight: 400;
+font-size: 24px;
+line-height: 29px;
+text-align: center;
+margin-top: 5px;
+border: none;
+
+color: #000000;
+}
+
+#tbody {
+  background-color: white;
+}
+
+/* Стили для селекта статуса */
+.status-select-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.status-select-field {
+  width: 100%;
+  max-width: 200px;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  font-family: inherit;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  text-align: center;
+  text-align-last: center;
+  -moz-text-align-last: center;
+}
+
+.status-select-field:hover {
+  border-color: #999;
+}
+
+.status-select-field:focus {
+  border-color: #4CAF50;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+}
+
+.status-select-field:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Стили для опций в селекте */
+.status-select-field option {
+  text-align: center;
+  padding: 8px;
+}
+
+/* Остальные стили */
+.cancel-order-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.cancel-order-button {
+  background-color: #e94c5b;
+  color: white;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.cancel-order-button:hover:not(:disabled) {
+  background-color: #c82333;
+}
+
+.cancel-order-button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.error-message {
+  text-align: center;
+  color: #e94c5b;
+  padding: 20px;
+  font-size: 18px;
+}
+
+.back-to-orders-link {
+background: rgba(221, 255, 0, 0.722);
+border: 0.5px solid #000000;
+box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+border-radius: 20px;
+padding: 10px 30px;
+font-family: 'Playfair Display SC', serif;
+font-style: normal;
+font-weight: 700;
+font-size: 20px;
+color: #000000;
+cursor: pointer;
+transition: all 0.3s ease;
+white-space: nowrap;
+}
+
+.back-to-orders-link:hover {
+background: rgba(221, 255, 0, 0.937);
+transform: translateY(-2px);
+box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.3);
+}
+
+
+
+

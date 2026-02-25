@@ -32,4 +32,14 @@ public class ProductMapper {
                 .local(product.isLocal())
                 .build();
     }
+
+    public ProductDTO toPlShort(Product product, int quantity) {
+        return ProductDTO.builder()
+                .id(product.getId())
+                .title(product.getTitle())
+                .image(product.getImage())
+                .price(product.getPrice())
+                .quantity(quantity)
+                .build();
+    }
 }

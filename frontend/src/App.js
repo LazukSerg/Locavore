@@ -13,6 +13,8 @@ import ProductsCategory from "./components/ProductsCategory";
 import ShoppingCart from "./pages/ShoppingCart";
 import ProductInfo from "./pages/ProductInfo";
 import ProductsSeller from "./pages/ProductsSeller";
+import MyOrders from "./pages/MyOrders";
+import OrderInfo from "./pages/OrderInfo";
 
 function App() {
 
@@ -40,6 +42,8 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/productsSeller/:id" element={<ProductsSeller />} />
+            <Route path="/orders/:id" element={<MyOrders />} />
+            <Route path="/orderInfo/:id" element={<OrderInfo />} />
           </Routes>
       </div>
     );

@@ -2,7 +2,7 @@ import React, { Component, useEffect, useState } from "react";
 import UserService from "../services/user.service";
 import AuthService from "../services/auth.service";
 import { useParams, Link } from 'react-router-dom';
-import "./home.css"
+import "./ProductsSeller.css"
 import { withRouter } from '../common/with-router';
 import Header from "../components/header.component";
 import CategoryService from "../services/category.service";
@@ -99,7 +99,7 @@ function Home() {
     <div className="back">
       <Header/>
 
-      <div className="filters-section">
+      <div className="products-seller-filters-section">
 
         <div className="filter-group">
           <label>Категория:</label>

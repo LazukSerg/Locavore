@@ -138,7 +138,7 @@
 
 
 
-.filters-section {
+.products-seller-filters-section {
 display: flex;
 flex-direction: row;
 align-items: center;
@@ -147,8 +147,8 @@ gap: 32px;
 padding: 15px 30px;
 width: calc(100% - 60px);
 margin: 20px auto;
-background: rgba(255, 255, 255, 0.853);
-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+/* background: rgba(255, 255, 255, 0.853); */
+/* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5); */
 border-radius: 20px;
 flex-wrap: wrap;
 }
@@ -259,8 +259,9 @@ width: 80%;
 background: transparent;
 border: none;
 box-shadow: none;
-padding: 8px 0;
+padding: 8px 10px;
 min-width: auto;
+background: rgba(255, 248, 248, 0.84);
 }
 
 .checkbox-label {

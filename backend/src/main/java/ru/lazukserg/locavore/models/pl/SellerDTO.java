@@ -19,6 +19,7 @@ public class SellerDTO {
 
     private Long id;
     private String username;
+    private String email;
     private String phoneNumber;
     private RegionDTO region;
     private String city;

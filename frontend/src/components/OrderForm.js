@@ -14,17 +14,16 @@ function OrderForm(props) {
     const [seller, setSeller] = useState('');
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    // const [orderCompleted, setOrderCompleted] = useState(false);
-    // const [pickupDate, setPickupDate] = useState('');
+    const [orderCompleted, setOrderCompleted] = useState(false);
     
 
-    // const handleCloseModal = () => {
-    //     setModalIsOpen(false);
+    const handleCloseModal = () => {
+        setModalIsOpen(false);
         // Закрыть всю форму и вернуться к корзине или на главную
-        // if (props.onClose) {
-        //     props.onClose();  // Вызвать callback из родительского компонента
-        // }
-    // }
+        if (props.onClose) {
+            props.onClose();  // Вызвать callback из родительского компонента
+        }
+    }
 
 
     const closeModal = () => {
@@ -36,8 +35,7 @@ function OrderForm(props) {
     const modalContent = (
         <div className="modal-centered">
             <p>Заказ оформлен. Ожидайте подтверждения заказа. При необходимости с вами свяжется продавец.</p>
-            {/* <button className='modal-close' onClick={closeModal}>ОК</button> */}
-            <button className='modal-close' onClick={closeModal}>ОК</button>
+            <button className='modal-close' onClick={handleCloseModal}>ОК</button>
         </div>
     );
 
@@ -49,7 +47,6 @@ function OrderForm(props) {
             setCurrentUser(fullUser.data)
         }
         const getSeller = async() => {
-            console.log(sellerId)
             const res = await userService.getById(sellerId);
             setSeller(res.data)
         }
@@ -94,6 +91,12 @@ function OrderForm(props) {
 
 
     const onSubmit = async(data) => {
+        console.log(formatDate(data.dateOfPickUp))
+        const formattedData = {
+          ...data,
+          dateOfPickUp: formatDate(data.dateOfPickUp)
+        };
+        data.dateOfPickUp = formattedData.dateOfPickUp
         data.dateOfCreation = new Date().toLocaleDateString()
         data.countPosition = products && products.map(it => it.count).reduce((a,v) => a = a + v, 0)
         data.totalOrder = products && products.map(it => it.price * it.count).reduce((a,v) =>  a = a + v , 0 )
@@ -102,15 +105,23 @@ function OrderForm(props) {
         data.buyerPhone = currentUser && currentUser["phoneNumber"]
         data.status = "Новый"
         
+        
         data.products = Object.fromEntries(products && products.reduce((acc, item) => acc.set(item.id, item), new Map()));
         data.sellerId = sellerId;
-        var result = OrderService.createOrder(data)  // Добавил await
-        result.then(response => {
-            if (response.data != null) {
-                setModalIsOpen(true)
-            }
-          });
+        console.log(data)
+        var result = await OrderService.createOrder(data)
+        if (result.data != null) {
+            setModalIsOpen(true)
+            setOrderCompleted(true)  // Отмечаем, что заказ завершён
+        }
     }
+
+    // Функция для форматирования даты
+    const formatDate = (dateString) => {
+        if (!dateString) return '';
+        const [year, month, day] = dateString.split('-');
+        return `${day}.${month}.${year}`;
+    };
 
     
 
@@ -166,7 +177,6 @@ function OrderForm(props) {
                                 })}
                             />
                         </td>
-                        {/* <td><input className="order-form-text-center order-form-user-value" placeholder="Дата" {...register("dateOfPickUp", { required: true })} /></td> */}
                     </tr>
                 </tbody>
             
@@ -186,7 +196,6 @@ function OrderForm(props) {
                 </tbody>
             </table>
             <input value={"Создать заказ"} type="submit" />
-            {/* {modalIsOpen == true &&  */}
                 <Modal isOpen={modalIsOpen}>
                     {modalContent}
                 </Modal>
