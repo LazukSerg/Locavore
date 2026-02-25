@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ru.lazukserg.locavore.models.*;
+import ru.lazukserg.locavore.models.pl.RegionDTO;
 import ru.lazukserg.locavore.payload.request.LoginRequest;
 import ru.lazukserg.locavore.payload.request.SignupRequest;
 import ru.lazukserg.locavore.payload.response.JwtResponse;
@@ -52,7 +53,7 @@ public class AuthController {
   JwtUtils jwtUtils;
 
   @PostMapping("/signin")
-  public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+  public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
     Authentication authentication = authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
@@ -69,6 +70,7 @@ public class AuthController {
                          userDetails.getId(), 
                          userDetails.getUsername(), 
                          userDetails.getEmail(),
+                         userDetails.getRegion().getName().getDisplayName(),
                          role));
   }
 
@@ -87,13 +89,13 @@ public class AuthController {
     }
 
     User user;
+    Region region = regionRepository.findByName(valueOfString(request.getRegion()))
+            .orElseThrow(() -> new RuntimeException("Ошибка: регион отсутствует в базе данных."));
 
     switch (request.getRole()) {
       case "seller":
         Role sellerRole = roleRepository.findByName(ERole.ROLE_SELLER)
                 .orElseThrow(() -> new RuntimeException("Ошибка: Роль Продавец не найдена в базе данных."));
-        Region region = regionRepository.findByName(valueOfString(request.getRegion()))
-                .orElseThrow(() -> new RuntimeException("Ошибка: регион отсутствует в базе данных."));
         user = new Seller(
                 request.getUsername(),
                 request.getPhoneNumber(),
@@ -117,6 +119,7 @@ public class AuthController {
                 request.getPhoneNumber(),
                 request.getEmail(),
                 encoder.encode(request.getPassword()),
+                region,
                 buyerRole
         );
         break;

@@ -20,12 +20,15 @@ function Header() {
     getUser()
   }, [])
 
+  const isBuyer = currentUser?.role === "ROLE_BUYER";
+  const isSeller = currentUser?.role === "ROLE_SELLER";
+
   return (
           <div>
             <div className="header">
               <div>
                 <h1 className="title">"ЛОКАВОРСТВО"</h1>
-                <p className="subtitle">Для ценителей продукции со своей грядки</p>
+                <p className="subtitle">Для ценителей продукции с грядки и подворья</p>
               </div>
               <button className="auth-button">
               {!currentUser && (<Link className='auth-button-text' to={`/login`}>Авторизация</Link>)}
@@ -38,9 +41,15 @@ function Header() {
                 <div className="dropdown-content">
                   <Link className='dropdown-item' to={`/about`}>О НАС</Link>
                   <Link className='dropdown-item' to={`/profile`}>МОЙ ПРОФИЛЬ</Link>
-                  <Link className='dropdown-item' to={`/home`}>КАТАЛОГ ПРОДУКЦИИ</Link>
+                  {currentUser && isBuyer && (
+                    <Link className='dropdown-item' to={`/home`}>КАТАЛОГ ПРОДУКЦИИ</Link>
+                  )}
+                  {currentUser && isSeller && (
+                    <Link className='dropdown-item' to={`/showCatalog/${currentUser.id}`}>МОЙ КАТАЛОГ</Link>
+                  )}
                   {currentUser && (
-                    <Link className='dropdown-item' to={`/orders`}>МОИ ЗАКАЗЫ</Link>
+                    <Link className='dropdown-item'
+                    to={`/orders/${currentUser.id}` }>МОИ ЗАКАЗЫ</Link>
                   )}
                   <Link className='dropdown-item' to={`/contacts`}>КОНТАКТЫ</Link>
                   <Link className='dropdown-item' onClick={() => EventBus.dispatch("logout")} to={`/login`}>ВЫЙТИ</Link>

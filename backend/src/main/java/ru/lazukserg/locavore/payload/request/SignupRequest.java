@@ -10,11 +10,11 @@ import lombok.Setter;
 @Setter
 public class SignupRequest {
   @NotBlank
-  @Size(min = 3, max = 20)
+  @Size(min = 3, max = 30)
   private String username;
 
   @NotBlank
-  @Size(max = 15)
+  @Size(max = 20)
   private String phoneNumber;
 
   @NotBlank

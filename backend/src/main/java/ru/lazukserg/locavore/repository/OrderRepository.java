@@ -11,4 +11,6 @@ public interface OrderRepository extends JpaRepository<Reservation, Long> {
   Reservation save(Reservation order);
 
   List<Reservation> findByBuyerId(Long id);
+  List<Reservation> findBySellerId(Long id);
+
 }

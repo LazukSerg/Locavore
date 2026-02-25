@@ -1,26 +1,24 @@
 package ru.lazukserg.locavore.models;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.Data;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
+@Data
 @Table(name = "buyer")
 public class Buyer extends User {
 
-  @OneToMany
+  @OneToMany(mappedBy = "buyer")
   private List<Reservation> reservations;
 
   public Buyer() {
   }
 
-  public Buyer(String username, String phoneNumber, String email, String password, Role role) {
-    super(username, phoneNumber, email, password, role);
+  public Buyer(String username, String phoneNumber, String email, String password, Region region, Role role) {
+    super(username, phoneNumber, email, password, region, role);
   }
-
 }

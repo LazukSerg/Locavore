@@ -6,9 +6,9 @@ class AuthService {
   login(email, password) {
     return axios
       .post(API_URL + "signin", {
-        email,
-        password
-      })
+      email,
+      password
+    })
       .then(response => {
         if (response.data.accessToken) {
           localStorage.setItem("user", JSON.stringify(response.data));
@@ -28,7 +28,8 @@ class AuthService {
       email,
       phoneNumber,
       password,
-      role: seller ? "seller" : "buyer"
+      role: seller ? "seller" : "buyer",
+      region,
     };
 
     // Добавляем дополнительные поля только если seller = true
@@ -36,7 +37,6 @@ class AuthService {
       Object.assign(data, {
         firstName,
         lastName,
-        region,
         settlement,
         street,
         building

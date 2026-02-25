@@ -28,8 +28,9 @@ public class Reservation  {
 
     private String status;
 
-//    @JoinColumn(name = "seller_id")
-    private Long buyerId;
+    @ManyToOne
+    @JoinColumn(name = "buyer_id")
+    private Buyer buyer;
 
     @ManyToOne
     @JoinColumn(name = "seller_id")
@@ -47,14 +48,14 @@ public class Reservation  {
     public Reservation () {
     }
 
-    public Reservation(Long id, String dateOfCreation, String dateOfPickUp, int countPosition, int totalOrder, String status, Long buyerId, Seller seller, Map<Long, Integer> products) {
+    public Reservation(Long id, String dateOfCreation, String dateOfPickUp, int countPosition, int totalOrder, String status, Buyer buyer, Seller seller, Map<Long, Integer> products) {
         this.id = id;
         this.dateOfCreation = dateOfCreation;
         this.dateOfPickUp = dateOfPickUp;
         this.countPosition = countPosition;
         this.totalOrder = totalOrder;
         this.status = status;
-        this.buyerId = buyerId;
+        this.buyer = buyer;
         this.seller = seller;
         this.products = products;
     }
@@ -68,7 +69,7 @@ public class Reservation  {
                 ", countPosition=" + countPosition +
                 ", totalOrder=" + totalOrder +
                 ", status='" + status + '\'' +
-                ", buyerId=" + buyerId +
+                ", buyer=" + buyer +
                 ", seller=" + seller +
                 ", products=" + products +
                 '}';

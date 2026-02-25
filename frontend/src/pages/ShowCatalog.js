@@ -2,20 +2,18 @@ import React, { Component, useEffect, useState } from "react";
 import UserService from "../services/user.service";
 import AuthService from "../services/auth.service";
 import { useParams, Link } from 'react-router-dom';
-import "./ProductsSeller.css"
+// import "./ProductsSeller.css"
+import "./ShowCatalog.css"
 import { withRouter } from '../common/with-router';
 import Header from "../components/header.component";
 import CategoryService from "../services/category.service";
 import Category from "../components/Category"
-import Product from "../components/Product";
+import SellerProduct from "../components/SellerProduct";
 import "../components/AllProducts.css";
-// import "./ProductsSeller.css";
 import productService from "../services/product.service";
 import Footer from "../components/Footer";
 
-const API_URL = "http://localhost:8080/api/";
-
-function Home() {
+function ShowCatalog() {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -23,6 +21,7 @@ function Home() {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [localOnly, setLocalOnly] = useState(false); // чекбокс: true - только local, false - все
   const { id } = useParams();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchCategories = async() => {
@@ -85,7 +84,12 @@ function Home() {
     let content = [];
     for (let i = 0; i < products.length; i++) {
       const data = products[i];
-      content.push(<Product key={data.id} item={data} cart={false}/>);
+      content.push(<SellerProduct 
+        key={data.id} 
+        item={data}
+        onDelete={handleDeleteProduct}
+        loading={loading}
+        />);
     }
     return content;
   };
@@ -94,6 +98,35 @@ function Home() {
     setSelectedCategory('');
     setLocalOnly(false);
   };
+
+  const handleDeleteProduct = async (productId) => {
+    if (window.confirm('Вы уверены, что хотите удалить этот товар?')) {
+      setLoading(true);
+      try {
+        await productService.deleteProduct(productId);
+        // Обновляем список продуктов после удаления
+        const updatedProducts = products.filter(product => product.id !== productId);
+        setProducts(updatedProducts);
+        setFilteredProducts(updatedProducts.filter(product => {
+          let matches = true;
+          if (selectedCategory) {
+            matches = matches && product.category?.name === selectedCategory;
+          }
+          if (localOnly) {
+            matches = matches && product.local === true;
+          }
+          return matches;
+        }));
+      } catch (error) {
+        console.error("Ошибка при удалении товара:", error);
+        alert('Не удалось удалить товар. Пожалуйста, попробуйте позже.');
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
+  
 
   return (
     <div className="back">
@@ -131,23 +164,21 @@ function Home() {
         >
           Сбросить фильтры
         </button>
+        <Link 
+            to={`/createProduct`} 
+            className="reset-filters-btn"
+          >
+            + Добавить новый товар
+          </Link>
       </div>
 
       {/* Список товаров */}
       <div className='all-products-list'>
         {filteredProducts && getProducts(filteredProducts)}
       </div>
-
-      <div className="down-container fixed-element">
-        <Link to={currentUser ? `/bucket` : '/login'}>
-          <div className="wrapper-bucket bucket">
-            <img src="/корзина.jpeg" alt="Корзина"></img>
-          </div>
-        </Link>
-      </div>
       <Footer/>
     </div>
   );
 }
 
-export default withRouter(Home);
+export default withRouter(ShowCatalog);

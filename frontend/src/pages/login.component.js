@@ -60,8 +60,9 @@ class Login extends Component {
 
     if (this.checkBtn.context._errors.length === 0) {
       AuthService.login(this.state.email, this.state.password).then(
-        () => {
-          this.props.router.navigate("/home");
+        (response) => { 
+          var isBuyer = response.role === "ROLE_BUYER"
+          this.props.router.navigate(isBuyer ? "/home" : `/showCatalog/${response.id}`);
           window.location.reload();
         },
         error => {
@@ -122,6 +123,10 @@ class Login extends Component {
                 validations={[required]}
               />
             </div>
+
+            <div className="forgot-password-link">
+                <Link to="/forgot-password">Забыли пароль?</Link>
+              </div>
 
             <div className="form-group">
               <button

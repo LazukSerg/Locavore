@@ -20,7 +20,6 @@ public class Order {
     private String status;
     private Long buyerId;
     private Long sellerId;
-//    private String sellerUserName;
     private String buyerPhone;
 
     private String buyerEmail;

@@ -42,12 +42,15 @@ public class UserMapper {
         return sellerDto;
     }
 
-    public UserDTO toPl(User user) {
-        return UserDTO.builder()
-                .id(user.getId())
-                .username(user.getUsername())
-                .email(user.getEmail())
-                .phoneNumber(user.getPhoneNumber())
+    public BuyerDTO toPl(Buyer buyer) {
+        return BuyerDTO.builder()
+                .id(buyer.getId())
+                .username(buyer.getUsername())
+                .email(buyer.getEmail())
+                .phoneNumber(buyer.getPhoneNumber())
+                .region(RegionDTO.builder()
+                        .name(buyer.getRegion().getName().getDisplayName())
+                        .build())
                 .build();
     }
 }

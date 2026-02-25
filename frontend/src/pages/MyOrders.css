@@ -1,58 +1,51 @@
-.categories-list {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    align-content: flex-start;
-    justify-content: space-evenly;
-    padding: 0px;
-    width: 100%;
-    flex: none;
-    order: 1;
-    flex-grow: 0;
+.orders-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+  /* margin-top: 30px; */
 }
 
-.category {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0px;
-    gap: 16px;
+/* Карточка продавца */
+/* .order-card {
+  background: rgba(255, 248, 248, 0.84);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  padding: 25px;
+  text-decoration: none;
+  color: #282828;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  border: 0.5px solid transparent;
+} */
 
-    width: 20%;
-    flex: none;
-    order: 0;
-    flex-grow: 0;
+.order-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.5);
+  border-color: #000000;
+  text-decoration: none;
+  color: #282828;
 }
 
-.address {
-    background: rgba(255, 255, 255, 0.489);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
-    border-radius: 20px;
-    width: 30vw;
-    height: 40px;
-    text-align: center;
-    margin-top: 30px;
-    font-family: 'Playfair Display SC';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 24px;
-    color: #000000;
+.order-card > div:first-child {
+  font-family: 'Playfair Display SC', serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  color: #000000;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
 }
 
-.wrapper-bucket {
-    width: 100px;
-    height: 100px;
-    -moz-border-radius: 50px;
-    -webkit-border-radius: 50px;
-    border-radius: 50px;
-    border: 2px solid #000000;
-}
-.bucket img {
-    border-radius: 50%;
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
+.order-card > div {
+  font-family: 'Montserrat', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  color: #282828;
+  line-height: 1.5;
 }
 
 .down-container {
@@ -79,7 +72,7 @@
 }
 
 /* Контейнер списка */
-.sellers-list {
+.orders-list {
   /* display: flex;
   flex-direction: column;
   gap: 16px; 
@@ -107,11 +100,31 @@
     flex-grow: 0;
 }
 
+.order-card-wrapper {
+  position: relative;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.order-card-wrapper:hover {
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.order-card-color-cancelled {
+  background-color: #ed8191; /* Светло-красный фон */
+  /* border: 2px solid #ef2c1e; Красная рамка */
+}
+
+.order-card-color {
+  background-color: rgba(228, 249, 94, 0.955);
+}
+
 /* Карточка продавца */
-.seller-card {
+.order-card {
   display: flex;
   flex-direction: column;
-  background-color: rgb(80, 227, 64);
+  /* background-color: rgba(228, 249, 94, 0.955); */
   border-radius: 8px;
   padding: 20px;
   color: black;
@@ -119,51 +132,27 @@
   transition: transform 0.2s;
 }
 
-.seller-card:hover {
+.order-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* Стили для текста внутри карточки */
-.seller-card div {
+.order-card div {
   margin-bottom: 8px;
   font-size: 16px;
   text-shadow: 0 0 3px white, 0 0 10px white, 0 0 20px white, 0 0 20px white;
 }
 
-.seller-card div:last-child {
+.order-card div:last-child {
   margin-bottom: 0;
 }
 
 /* Стиль для ссылки */
-.seller-card a {
+.order-card a {
   text-decoration: none;
   color: inherit;
   display: block;
-}
-
-.seller-card-categories {
-  display: flex;
-  flex-direction: column;
-  background-color: rgb(45, 249, 22);
-  border-radius: 8px;
-  padding: 20px;
-  color: black;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
-}
-
-.categories-vertical-list.minimal .category-item {
-  background-color: transparent;
-  padding: 6px 12px;
-  border-left: 3px solid #4CAF50;
-  border-radius: 0;
-  box-shadow: none;
-}
-
-.categories-vertical-list.minimal .category-item:hover {
-  background-color: #f5f5f5;
-  transform: none;
 }
 
 
@@ -177,14 +166,14 @@
 
 
 /* Основной контейнер */
-.sellers-container {
+.orders-container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 20px;
 }
 
 /* Блок фильтров в стиле предоставленного кода */
-.sellers-filters-section {
+.orders-filters-section {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -198,8 +187,8 @@
   /* margin-bottom: 40px; */
   flex-wrap: wrap;
 }
-
-/* .sellers-filters-section h3 {
+/* 
+.orders-filters-section h3 {
   font-family: 'Playfair Display SC', serif;
   font-style: normal;
   font-weight: 700;
@@ -409,35 +398,4 @@
   bottom: 30px;   /* отступ от нижнего края */
   right: 30px;    /* отступ от правого края */
   z-index: 1000;
-}
-
-/* Стили для лоадера */
-.loading-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 400px;
-  width: 100%;
-}
-
-.loading-spinner {
-  width: 50px;
-  height: 50px;
-  border: 5px solid #f3f3f3;
-  border-top: 5px solid #98db34;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-bottom: 20px;
-}
-
-.loading-text {
-  font-size: 18px;
-  color: #ffeeee;
-  font-weight: 500;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
 }

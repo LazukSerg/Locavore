@@ -17,9 +17,6 @@ import java.util.Set;
 @Table(name = "seller")
 public class Seller extends User {
 
-  @ManyToOne
-  private Region region;
-
   private String city;
 
   private String street;
@@ -40,8 +37,7 @@ public class Seller extends User {
   }
 
   public Seller(String username, String phoneNumber, String email, String password, Role role, Region region, String city, String street, String building, String firstName, String lastName) {
-    super(username, phoneNumber, email, password, role);
-    this.region = region;
+    super(username, phoneNumber, email, password, region, role);
     this.city = city;
     this.street = street;
     this.building = building;

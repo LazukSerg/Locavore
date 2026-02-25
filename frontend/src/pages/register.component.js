@@ -2,8 +2,9 @@ import React, { Component, useState } from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-import { isEmail, isMobilePhone, isMobilePhoneLocales } from "validator";
+import { isEmail } from "validator";
 import { Link } from "react-router-dom";
+import InputMask from 'react-input-mask';
 import Select from "react-select";
 
 import AuthService from "../services/auth.service";
@@ -123,10 +124,12 @@ const email = value => {
 };
 
 const phone = value => {
-  if (value.length < 10) {
+  // Убираем все нецифровые символы для проверки
+  const digits = value.replace(/\D/g, '');
+  if (digits.length < 11) {
     return (
       <div className="alert alert-danger" role="alert">
-        Не является номером телефона.
+        Введите полный номер телефона (11 цифр).
       </div>
     );
   }
@@ -345,14 +348,35 @@ export default class Register extends Component {
 
                 <div className="form-group">
                   <label htmlFor="phone">Телефон</label>
-                  <Input
-                    type="text"
+                  <InputMask
+                    mask="+7(999)999-99-99"
+                    maskChar="_"
                     className="form-control"
+                    type="tel"
                     name="phoneNumber"
                     value={this.state.phone}
                     onChange={this.onChangePhone}
-                    validations={[required, phone]}
                   />
+                  {/* Добавляем валидацию отдельно */}
+                  {this.state.phone && this.state.phone.replace(/\D/g, '').length < 11 && (
+                    <div className="alert alert-danger" role="alert">
+                      Введите полный номер телефона (11 цифр).
+                    </div>
+                  )}
+                </div>
+
+                <div className="form-group">
+                      <label htmlFor="region">Регион</label>
+                      <Select
+                        options={regionsOptions}
+                        name="region"
+                        value={regionsOptions.find(opt => opt.value === this.state.region)}
+                        onChange={this.onChangeRegion}
+                        filterOption={(option, inputValue) =>
+                          option.label.toLowerCase().startsWith(inputValue.toLowerCase())
+                        }
+                        placeholder="Выберите регион"
+                      />
                 </div>
 
                 <div className="form-group">
@@ -401,21 +425,6 @@ export default class Register extends Component {
                         name="lastName"
                         value={this.state.lastName}
                         onChange={this.onChangeLastName}
-                        validations={[this.state.seller ? required : ""]}
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label htmlFor="region">Регион</label>
-                      <Select
-                        options={regionsOptions}
-                        name="region"
-                        value={regionsOptions.find(opt => opt.value === this.state.region)}
-                        onChange={this.onChangeRegion}
-                        filterOption={(option, inputValue) =>
-                          option.label.toLowerCase().startsWith(inputValue.toLowerCase())
-                        }
-                        placeholder="Выберите регион"
                         validations={[this.state.seller ? required : ""]}
                       />
                     </div>

@@ -16,6 +16,8 @@ public class BuyerDTO {
 
     private Long id;
     private String username;
+    private String email;
     private String phoneNumber;
+    private RegionDTO region;
     private List<ReservationDTO> reservations;
 }

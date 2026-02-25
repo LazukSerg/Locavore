@@ -4,17 +4,12 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.lazukserg.locavore.mapper.UserMapper;
-import ru.lazukserg.locavore.models.Buyer;
-import ru.lazukserg.locavore.models.Seller;
-import ru.lazukserg.locavore.models.User;
+import ru.lazukserg.locavore.models.pl.BuyerDTO;
 import ru.lazukserg.locavore.models.pl.SellerDTO;
-import ru.lazukserg.locavore.models.pl.UserDTO;
+import ru.lazukserg.locavore.repository.BuyerRepository;
 import ru.lazukserg.locavore.repository.SellerRepository;
-import ru.lazukserg.locavore.repository.UserRepository;
 
 import java.util.List;
-
-import static ru.lazukserg.locavore.models.ERole.ROLE_BUYER;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -22,7 +17,7 @@ import static ru.lazukserg.locavore.models.ERole.ROLE_BUYER;
 public class UserController {
 
   @Autowired
-  UserRepository userRepository;
+  BuyerRepository buyerRepository;
 
   @Autowired
   SellerRepository sellerRepository;
@@ -31,8 +26,8 @@ public class UserController {
   UserMapper userMapper;
 
   @GetMapping("/{id}")
-  public UserDTO getUser(@PathVariable("id") Long id) {
-      return userRepository.findById(id).stream()
+  public BuyerDTO getUser(@PathVariable("id") Long id) {
+      return buyerRepository.findById(id).stream()
               .map(user -> userMapper.toPl(user)).findFirst().orElseThrow(() -> new EntityNotFoundException(
             String.format("Пользователя с id %d не найден", id)
     ));

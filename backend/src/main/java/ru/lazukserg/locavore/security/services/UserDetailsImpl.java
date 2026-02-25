@@ -11,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import ru.lazukserg.locavore.models.Region;
 import ru.lazukserg.locavore.models.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -22,18 +23,20 @@ public class UserDetailsImpl implements UserDetails {
   private String username;
 
   private String email;
+  private Region region;
 
   @JsonIgnore
   private String password;
 
   private Collection<? extends GrantedAuthority> authorities;
 
-  public UserDetailsImpl(Long id, String username, String email, String password,
+  public UserDetailsImpl(Long id, String username, String email, String password, Region region,
       Collection<? extends GrantedAuthority> authorities) {
     this.id = id;
     this.username = username;
     this.email = email;
     this.password = password;
+    this.region = region;
     this.authorities = authorities;
   }
 
@@ -46,7 +49,8 @@ public class UserDetailsImpl implements UserDetails {
         user.getId(),
         user.getUsername(),
         user.getEmail(),
-        user.getPassword(), 
+        user.getPassword(),
+        user.getRegion(),
         authorities);
   }
 
@@ -61,6 +65,10 @@ public class UserDetailsImpl implements UserDetails {
 
   public String getEmail() {
     return email;
+  }
+
+  public Region getRegion() {
+    return region;
   }
 
   @Override
