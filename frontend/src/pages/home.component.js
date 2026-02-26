@@ -19,10 +19,10 @@ function Home() {
   const [selectedRegion, setSelectedRegion] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [filteredSellers, setFilteredSellers] = useState([]);
-  
+
   // Состояние загрузки
   const [loading, setLoading] = useState(true);
-  
+
   // Состояние для отслеживания завершения всех запросов
   const [dataLoaded, setDataLoaded] = useState({
     user: false,
@@ -45,7 +45,7 @@ function Home() {
         setDataLoaded(prev => ({ ...prev, sellers: true }));
       }
     }
-    
+
     const fetchRegions = async() => {
       try {
         const res = await regionService.getAll();
@@ -57,7 +57,7 @@ function Home() {
         setDataLoaded(prev => ({ ...prev, regions: true }));
       }
     }
-    
+
     const fetchCategories = async() => {
       try {
         const res = await CategoryService.getAll();
@@ -69,12 +69,12 @@ function Home() {
         setDataLoaded(prev => ({ ...prev, categories: true }));
       }
     }
-    
+
     const fetchUser = async() => {
       try {
         const user = await AuthService.getCurrentUser();
         setCurrentUser(user);
-        
+
         // Устанавливаем регион пользователя, если он есть
         if (user && user.region) {
           setSelectedRegion(user.region);
@@ -105,26 +105,26 @@ function Home() {
   useEffect(() => {
     // Не фильтруем, пока данные не загружены
     if (loading) return;
-    
+
     // Проверяем, что sellers - это массив
     if (!Array.isArray(sellers)) {
       console.warn('sellers не является массивом:', sellers);
       setFilteredSellers([]);
       return;
     }
-    
+
     let result = [...sellers]; // Создаем копию массива
     
     if (selectedRegion) {
-      result = result.filter(seller => 
+      result = result.filter(seller =>
         seller.region && seller.region.name === selectedRegion
       );
     }
     
     if (selectedCategory) {
       result = result.filter(seller => 
-        seller.products && Array.isArray(seller.products) && 
-        seller.products.some(product => 
+        seller.products && Array.isArray(seller.products) &&
+        seller.products.some(product =>
           product.category && product.category.name === selectedCategory
         )
       );
@@ -151,8 +151,8 @@ function Home() {
           {/* Фильтр по региону */}
           <div className="filter-group">
             <label>Регион:</label>
-            <select 
-              value={selectedRegion} 
+            <select
+              value={selectedRegion}
               onChange={(e) => setSelectedRegion(e.target.value)}
             >
               <option value="">Все регионы</option>
@@ -161,12 +161,12 @@ function Home() {
               ))}
             </select>
           </div>
-            
+
           {/* Фильтр по категории */}
           <div className="filter-group">
             <label>Категория товаров:</label>
-            <select 
-              value={selectedCategory} 
+            <select
+              value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
             >
               <option value="">Все категории</option>
@@ -175,9 +175,9 @@ function Home() {
               ))}
             </select>
           </div>
-            
+
           {/* Кнопка сброса фильтров */}
-          <button 
+          <button
             onClick={() => {
               setSelectedRegion('');
               setSelectedCategory('');
@@ -187,13 +187,13 @@ function Home() {
             Сбросить фильтры
           </button>
         </div>
-          
+
         {/* Список отфильтрованных продавцов */}
         <div className="sellers-list">
-          {Array.isArray(filteredSellers) && filteredSellers.length > 0 ? 
+          {Array.isArray(filteredSellers) && filteredSellers.length > 0 ?
             filteredSellers.map(seller => (
-              <Link 
-                to={`/productsSeller/${seller.id}`} 
+              <Link
+                to={`/productsSeller/${seller.id}`}
                 key={seller.id}
                 className="seller-card"
               >
@@ -235,7 +235,7 @@ function Home() {
   return (
     <div className="back">
       <Header/>
-      
+
       {renderContent()}
 
       <div className="down-container fixed-element">
