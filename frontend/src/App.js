@@ -16,6 +16,7 @@ import ProductsSeller from "./pages/ProductsSeller";
 import MyOrders from "./pages/MyOrders";
 import OrderInfo from "./pages/OrderInfo";
 import ShowCatalog from "./pages/ShowCatalog";
+import NewProduct from "./pages/NewProduct";
 
 function App() {
 
@@ -46,6 +47,9 @@ function App() {
             <Route path="/orders/:id" element={<MyOrders />} />
             <Route path="/orderInfo/:id" element={<OrderInfo />} />
             <Route path="/showCatalog/:id" element={<ShowCatalog />} />
+            <Route path="/createProduct" element={<NewProduct />} />
+
+            
           </Routes>
       </div>
     );

@@ -13,6 +13,6 @@ import ru.lazukserg.locavore.models.ERegion;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RegionDTO {
 
-    private Integer id;
+    private Long id;
     private String name;
 }

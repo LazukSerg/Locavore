@@ -1,328 +1,512 @@
-.row-categories {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    gap: 40px;
-    padding-left: 30px;
+.add-product-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.row-categories a:hover {
-    text-decoration: none;
-}
-
-.category-link {
-    color: black;
-}
-
-.category-link:hover {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-
-}
-
-.link-container {
-    background: rgba(255, 255, 255, 0.853);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
-    border-radius: 20px;
-     padding-left: 10px;
-     padding-right: 10px; 
-
-    font-family: 'Montserrat';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 22px;
+.add-product-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #000000;
     text-align: center;
-    color: #282828;
+    margin-bottom: 30px;
+    text-shadow: 0 0 3px white, 0 0 10px white;
 }
 
-.new-line {
-    white-space: pre-line;
-}
-
-
-.categories-list {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    align-content: flex-start;
-    justify-content: space-evenly;
-    padding: 0px;
-    width: 100%;
-    flex: none;
-    order: 1;
-    flex-grow: 0;
-}
-
-.category {
+.add-product-form {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 0px;
-    gap: 16px;
-
-    width: 20%;
-    flex: none;
-    order: 0;
-    flex-grow: 0;
+    gap: 20px;
 }
 
-.address {
-    background: rgba(255, 255, 255, 0.489);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
-    border-radius: 20px;
-    width: 30vw;
-    height: 40px;
-    text-align: center;
-    margin-top: 30px;
-    font-family: 'Playfair Display SC';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 24px;
-    color: #000000;
-}
-
-.wrapper-bucket {
-    width: 100px;
-    height: 100px;
-    -moz-border-radius: 50px;
-    -webkit-border-radius: 50px;
-    border-radius: 50px;
-    border: 2px solid #000000;
-}
-.bucket img {
-    border-radius: 50%;
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-}
-
-.down-container {
+.add-product-form-row {
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    gap: 40vw;
-    padding-top: 50px;
+    gap: 20px;
+    width: 100%;
 }
 
-.category-text {
-    height: 26px;
+.add-product-form-group-half {
+    flex: 1;
+    min-width: 0;
+}
+
+.add-product-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.add-product-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+.add-product-input,
+.add-product-textarea,
+.add-product-select {
+    padding: 12px 16px;
+    border: 2px solid #DDDDDD;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background-color: white;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.add-product-select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding-right: 40px;
+}
+
+/* Стили для отображения региона при локальном продукте */
+.add-product-region-display {
+    padding: 12px 16px;
+    border: 2px solid #339933;
+    border-radius: 8px;
+    background-color: #e8f5e8;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.add-product-region-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.add-product-region-value {
+    font-weight: 600;
+    color: #267326;
+}
+
+.add-product-region-badge {
+    background-color: #339933;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.add-product-select:disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.add-product-input:focus,
+.add-product-textarea:focus,
+.add-product-select:focus:not(:disabled) {
+    outline: none;
+    border-color: #339933;
+    box-shadow: 0 0 0 3px rgba(51, 153, 51, 0.1);
+}
+
+.add-product-input.error,
+.add-product-textarea.error,
+.add-product-select.error {
+    border-color: #ff3333;
+}
+
+.add-product-textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.add-product-error-message {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color: #ff3333;
+    margin-top: 4px;
+}
+
+/* Стили для чекбокса */
+.add-product-checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px 0;
+}
+
+.add-product-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+.add-product-checkbox {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #339933;
+}
+
+.add-product-checkbox-text {
+    user-select: none;
+}
+
+.add-product-checkbox-hint {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color: #339933;
+    margin-left: 32px;
+}
+
+.add-product-image-preview {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.add-product-preview-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.add-product-preview-image {
+    max-width: 300px;
+    max-height: 300px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    object-fit: cover;
+}
+
+.add-product-buttons {
+    display: flex;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.add-product-submit-button,
+.add-product-cancel-button {
+    flex: 1;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.add-product-submit-button {
+    background-color: rgb(80, 227, 64);
+    color: rgb(0, 0, 0);
+}
+
+.add-product-cancel-button {
+    background: #e76e6e;
+    color: white;
+}
+
+.add-product-submit-button:disabled,
+.add-product-cancel-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.add-product-navigation {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.add-product-back-link {
+    background: none;
+    border: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #339933;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.add-product-back-link:hover {
+    color: #267326;
+    transform: translateX(-5px);
+}
+
+.add-product-error {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #ff3333;
+    text-align: center;
+    margin: 50px 0;
+}
+
+.add-product-button {
+    display: block;
+    width: 200px;
+    margin: 20px auto;
+    padding: 12px 24px;
+    background: #339933;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.add-product-button:hover {
+    background: #267326;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Адаптивный дизайн */
+@media (max-width: 768px) {
+    .add-product-container {
+        margin: 20px;
+        padding: 20px;
+    }
+
+    .add-product-title {
+        font-size: 24px;
+    }
+
+    .add-product-form-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .add-product-form-group-half {
+        width: 100%;
+    }
+
+    .add-product-buttons {
+        flex-direction: column;
+    }
+
+    .add-product-submit-button,
+    .add-product-cancel-button {
+        width: 100%;
+    }
+
+    .add-product-preview-image {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .add-product-checkbox-label {
+        font-size: 16px;
+    }
+    
+    .add-product-select {
+        font-size: 14px;
+    }
+
+    .add-product-region-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+}
+
+.back-to-show-catalog-link {
+    background: rgba(221, 255, 0, 0.722);
+    border: 0.5px solid #000000;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    padding: 10px 30px;
+    font-family: 'Playfair Display SC', serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    color: #000000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.center {
+    text-align: center;
+}
+
+.text {
     font-family: 'Montserrat';
     font-style: normal;
-    font-weight: 500;
+    font-weight: 700;
     font-size: 20px;
-    line-height: 130%;
+    line-height: 24px;
+
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 0;
     text-align: center;
-    color: #282828;
-    flex: none;
-    order: 1;
-    align-self: stretch;
-    flex-grow: 0;
 }
 
-.fixed-element {
-  position: fixed;
-  bottom: 30px;   /* отступ от нижнего края */
-  right: 30px;    /* отступ от правого края */
-  z-index: 1000;
+/* Стили для загрузки файла */
+.add-product-file-upload {
+    position: relative;
+    width: 100%;
 }
 
-
-
-
-
-
-
-
-
-
-
-.products-seller-filters-section {
-display: flex;
-flex-direction: row;
-align-items: center;
-justify-content: flex-start;
-gap: 32px;
-padding: 15px 30px;
-width: calc(100% - 60px);
-margin: 20px auto;
-/* background: rgba(255, 255, 255, 0.853); */
-/* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5); */
-border-radius: 20px;
-flex-wrap: wrap;
-}
-/* 
-.filters-section h3 {
-font-family: 'Playfair Display SC', serif;
-font-style: normal;
-font-weight: 700;
-font-size: 24px;
-color: #000000;
-margin: 0;
-padding-right: 20px;
-border-right: 2px solid rgba(0, 0, 0, 0.1);
-} */
-
-.filter-group {
-display: flex;
-flex-direction: row;
-align-items: center;
-gap: 15px;
-background: rgba(255, 248, 248, 0.84);
-border: 0.5px solid #000000;
-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-border-radius: 20px;
-padding: 8px 20px;
-min-width: 200px;
+.add-product-file-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
 }
 
-.filter-group label {
-font-family: 'Montserrat', sans-serif;
-font-style: normal;
-font-weight: 500;
-font-size: 18px;
-color: #282828;
-white-space: nowrap;
+.add-product-file-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    width: 100%;
 }
 
-.filter-group select {
-font-family: 'Montserrat', sans-serif;
-font-style: normal;
-font-weight: 500;
-font-size: 16px;
-color: #282828;
-background: transparent;
-border: none;
-padding: 8px 0;
-cursor: pointer;
-outline: none;
-flex: 1;
+.add-product-file-button {
+    padding: 10px 20px;
+    background: #339933;
+    color: white;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    white-space: nowrap;
 }
 
-.filter-group select:hover {
-color: #000000;
+.add-product-file-button:hover {
+    background: #267326;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.reset-filters-btn {
-background: rgba(219, 255, 0, 0.54);
-border: 0.5px solid #000000;
-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-border-radius: 20px;
-padding: 10px 30px;
-font-family: 'Playfair Display SC', serif;
-font-style: normal;
-font-weight: 700;
-font-size: 20px;
-color: #000000;
-cursor: pointer;
-transition: all 0.3s ease;
-white-space: nowrap;
+.add-product-file-name {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color: #666;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
-.reset-filters-btn:hover {
-background: rgba(219, 255, 0, 0.8);
-transform: translateY(-2px);
-box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.3);
+.add-product-file-input.error + .add-product-file-label .add-product-file-button {
+    background: #ff3333;
 }
 
-.results-info {
-font-family: 'Montserrat', sans-serif;
-font-style: normal;
-font-weight: 500;
-font-size: 18px;
-color: #282828;
-margin: 20px auto;
-padding-left: 40px;
-width: 100%;
+/* Стили для сертификата */
+.add-product-certificate-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+    padding: 10px 15px;
+    background-color: #f0f8ff;
+    border: 2px solid #339933;
+    border-radius: 8px;
 }
 
-.no-results {
-font-family: 'Playfair Display SC', serif;
-font-style: normal;
-font-weight: 700;
-font-size: 24px;
-color: #000000;
-text-align: center;
-padding: 60px;
-background: rgba(255, 248, 248, 0.84);
-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
-border-radius: 20px;
-margin: 40px auto;
-width: 80%;
+.add-product-certificate-name {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color: #267326;
+    font-weight: 600;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
-
-
-
-.filter-group.checkbox-group {
-background: transparent;
-border: none;
-box-shadow: none;
-padding: 8px 10px;
-min-width: auto;
-background: rgba(255, 248, 248, 0.84);
+.add-product-certificate-remove {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #ff3333;
+    color: white;
+    border: none;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    padding: 0;
+    line-height: 1;
 }
 
-.checkbox-label {
-display: flex;
-align-items: center;
-gap: 10px;
-cursor: pointer;
-font-family: 'Montserrat', sans-serif;
-font-style: normal;
-font-weight: 500;
-font-size: 16px;
-color: #282828;
-white-space: nowrap;
+.add-product-certificate-remove:hover {
+    background-color: #cc0000;
+    transform: scale(1.1);
 }
 
-.checkbox-label input[type="checkbox"] {
-width: 18px;
-height: 18px;
-cursor: pointer;
-accent-color: #4CAF50; /* Цвет чекбокса в современных браузерах */
+.add-product-field-hint {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    color: #888;
+    margin-top: 4px;
+    font-style: italic;
 }
 
-.checkbox-label input[type="checkbox"]:hover {
-transform: scale(1.1);
+/* Обновляем стили для кнопок файлов */
+.add-product-file-button {
+    padding: 10px 20px;
+    background: #339933;
+    color: white;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    white-space: nowrap;
 }
 
-.checkbox-label span {
-user-select: none;
+.add-product-file-button:hover {
+    background: #267326;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Альтернативный стиль для чекбокса, если accent-color не поддерживается */
-.checkbox-label input[type="checkbox"] {
--webkit-appearance: none;
--moz-appearance: none;
-appearance: none;
-width: 20px;
-height: 20px;
-border: 2px solid #4CAF50;
-border-radius: 4px;
-outline: none;
-transition: all 0.2s;
-position: relative;
-margin-right: 5px;
-}
-
-.checkbox-label input[type="checkbox"]:checked {
-background-color: #4CAF50;
-border-color: #4CAF50;
-}
-
-.checkbox-label input[type="checkbox"]:checked::after {
-content: '✓';
-position: absolute;
-color: white;
-font-size: 14px;
-top: 50%;
-left: 50%;
-transform: translate(-50%, -50%);
-}
-
-.checkbox-label input[type="checkbox"]:hover {
-border-color: #45a049;
-box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+/* Адаптивность для сертификата */
+@media (max-width: 768px) {
+    .add-product-certificate-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .add-product-certificate-name {
+        width: 100%;
+    }
+    
+    .add-product-certificate-remove {
+        align-self: flex-end;
+    }
 }

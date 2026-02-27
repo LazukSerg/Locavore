@@ -15,12 +15,16 @@ public class ProductDTO {
     private Long id;
     private String title;
     private String image;
+    private String certificate;
     private String structure;
     private String description;
     private int price;
     private SellerDTO seller;
+    private Long sellerId;
     private CategoryDTO category;
+    private Long categoryId;
     private RegionDTO region;
+    private Long regionId;
     private boolean local;
     private int quantity;
 }

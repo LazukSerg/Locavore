@@ -13,6 +13,10 @@ class ProductService {
   getProductById(id) {
     return axios.get(API_PRODUCT_URL + `${id}`,  { headers: authHeader() });
   }
+
+  createProduct(data) {
+    return axios.post(API_PRODUCT_URL + `create`, data, { headers: authHeader() });
+  }
 }
 
 export default new ProductService();

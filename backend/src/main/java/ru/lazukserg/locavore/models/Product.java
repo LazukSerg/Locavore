@@ -21,6 +21,8 @@ public class Product {
     @NotBlank
     private String image;
 
+    private String certificate;
+
     private String structure;
 
     private String description;
@@ -42,13 +44,26 @@ public class Product {
     public Product() {
     }
 
-    public Product(String title, String image, String structure, int price, Category category) {
+    public Product(String title, String image, String certificate, String structure, int price, Category category) {
         this.title = title;
         this.image = image;
+        this.certificate = certificate;
         this.structure = structure;
         this.price = price;
         this.category = category;
     }
 
+    public Product(String title, String image, String certificate, String structure, String description, int price, Seller seller, Category category, Region region, boolean local) {
+        this.title = title;
+        this.image = image;
+        this.certificate = certificate;
+        this.structure = structure;
+        this.description = description;
+        this.price = price;
+        this.seller = seller;
+        this.category = category;
+        this.region = region;
+        this.local = local;
+    }
 }
 

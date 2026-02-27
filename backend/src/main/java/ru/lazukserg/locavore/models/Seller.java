@@ -30,9 +30,6 @@ public class Seller extends User {
   @OneToMany(mappedBy = "seller")
   private List<Product> products;
 
-  @OneToMany(mappedBy = "seller")
-  private List<Reservation> reservations;
-
   public Seller() {
   }
 

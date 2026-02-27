@@ -12,9 +12,6 @@ import java.util.List;
 @Table(name = "buyer")
 public class Buyer extends User {
 
-  @OneToMany(mappedBy = "buyer")
-  private List<Reservation> reservations;
-
   public Buyer() {
   }
 

@@ -16,10 +16,8 @@ public class Reservation  {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @Column(name = "date-order")
     private String dateOfCreation;
 
-//    @Column(name = "date-pick-up")
     private String dateOfPickUp;
 
     private int countPosition;
@@ -41,8 +39,6 @@ public class Reservation  {
             joinColumns = {@JoinColumn(name = "reservation_id", referencedColumnName = "id")})
     @MapKeyColumn(name = "product_id")
     @Column(name = "count_products")
-//    @OneToMany(mappedBy = "order_product_id")
-//    @MapKeyColumn(name = "product_index")
     private Map<Long, Integer> products;
 
     public Reservation () {

@@ -1,7 +1,10 @@
 package ru.lazukserg.locavore.mapper;
 
 import org.springframework.stereotype.Component;
+import ru.lazukserg.locavore.models.Category;
 import ru.lazukserg.locavore.models.Product;
+import ru.lazukserg.locavore.models.Region;
+import ru.lazukserg.locavore.models.Seller;
 import ru.lazukserg.locavore.models.pl.CategoryDTO;
 import ru.lazukserg.locavore.models.pl.ProductDTO;
 import ru.lazukserg.locavore.models.pl.RegionDTO;
@@ -31,6 +34,21 @@ public class ProductMapper {
                         .build())
                 .local(product.isLocal())
                 .build();
+    }
+
+    public Product fromPl(ProductDTO productDTO, Seller seller, Category category, Region region) {
+        return new Product(
+                productDTO.getTitle(),
+                productDTO.getImage(),
+                productDTO.getCertificate(),
+                productDTO.getStructure(),
+                productDTO.getDescription(),
+                productDTO.getPrice(),
+                seller,
+                category,
+                region,
+                productDTO.isLocal()
+        );
     }
 
     public ProductDTO toPlShort(Product product, int quantity) {
