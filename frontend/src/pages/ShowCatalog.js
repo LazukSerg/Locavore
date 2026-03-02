@@ -103,7 +103,7 @@ function ShowCatalog() {
     if (window.confirm('Вы уверены, что хотите удалить этот товар?')) {
       setLoading(true);
       try {
-        await productService.deleteProduct(productId);
+        await productService.deleteProductById(productId);
         // Обновляем список продуктов после удаления
         const updatedProducts = products.filter(product => product.id !== productId);
         setProducts(updatedProducts);

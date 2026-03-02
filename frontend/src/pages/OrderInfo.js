@@ -219,7 +219,7 @@ function OrderInfo() {
               <tr>
                 <td className="order-info-text-center order-info-user-key">Дата самовывоза</td>
                 <td className="order-info-text-center order-info-user-value">
-                  {formatDate(order.dateOfPickUp)}
+                  {order.dateOfPickUp}
                 </td>
               </tr>
               <tr>

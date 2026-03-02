@@ -1,21 +1,23 @@
 import '../components/base.css';
-import './NewProduct.css';
+import './EditProduct.css';
 import Header from '../components/header.component.js';
 import AuthService from "../services/auth.service.js";
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useParams } from 'react-router-dom';
 import ProductService from '../services/product.service.js';
 import regionService from '../services/region.service.js';
 import categoryService from '../services/category.service.js';
 import Footer from '../components/Footer.js';
 
-function NewProduct() {
+function EditProduct() {
   const navigate = useNavigate();
+  const { id } = useParams();
   const [currentUser, setCurrentUser] = useState(null);
   const [regions, setRegions] = useState([]);
   const [categories, setCategories] = useState([]);
   const [isLoadingRegions, setIsLoadingRegions] = useState(false);
   const [isLoadingCategories, setIsLoadingCategories] = useState(false);
+  const [isLoadingProduct, setIsLoadingProduct] = useState(true);
   
   const [formData, setFormData] = useState({
     title: '',
@@ -24,8 +26,10 @@ function NewProduct() {
     price: '',
     image: null,
     imagePreview: '',
+    existingImage: '',
     certificate: null,
     certificateName: '',
+    existingCertificate: '',
     region: '',
     category: '',
     local: false,
@@ -37,11 +41,56 @@ function NewProduct() {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Функция для открытия сертификата
+  const openCertificate = (url) => {
+    if (url) {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+  };
+
+  // Загрузка данных продукта
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        setIsLoadingProduct(true);
+        const response = await ProductService.getProductById(id);
+        const product = response.data;
+        
+        const regionId = product.region?.id || '';
+        const categoryId = product.category?.id || '';
+        
+        setFormData(prev => ({
+          ...prev,
+          title: product.title || '',
+          description: product.description || '',
+          structure: product.structure || '',
+          price: product.price || '',
+          existingImage: product.image || '',
+          existingCertificate: product.certificate || '',
+          region: regionId,
+          category: categoryId,
+          local: product.local || false,
+          seller: { id: product.seller?.id || prev.seller.id }
+        }));
+        
+        setIsLoadingProduct(false);
+      } catch (error) {
+        console.error('Ошибка при загрузке продукта:', error);
+        alert('Не удалось загрузить данные продукта');
+        navigate(-1);
+      }
+    };
+
+    if (id) {
+      fetchProduct();
+    }
+  }, [id, navigate]);
+
   useEffect(() => {
     const getUser = async () => {
       const user = await AuthService.getCurrentUser();
       setCurrentUser(user);
-      if (user) {
+      if (user && !formData.seller.id) {
         setFormData(prev => ({
           ...prev,
           seller: { id: user.id }
@@ -81,11 +130,8 @@ function NewProduct() {
   }, []);
 
   useEffect(() => {
-    // При изменении чекбокса local или загрузке пользователя/регионов
     if (formData.local && currentUser?.region && regions.length > 0) {
-      // Находим ID региона по названию
       const regionId = getRegionIdByName(currentUser.region);
-      // Устанавливаем регион продавца, если он есть в списке регионов
       const sellerRegionExists = regions.some(r => r.id === regionId);
       if (sellerRegionExists) {
         setFormData(prev => ({
@@ -123,7 +169,7 @@ function NewProduct() {
       newErrors.category = 'Выберите категорию товара';
     }
 
-    if (!formData.image) {
+    if (!formData.image && !formData.existingImage) {
       newErrors.image = 'Изображение товара обязательно';
     }
 
@@ -142,7 +188,6 @@ function NewProduct() {
       setFormData(prev => ({
         ...prev,
         [name]: checked,
-        // Если чекбокс выключен, сбрасываем регион
         region: checked ? prev.region : ''
       }));
     } else {
@@ -152,7 +197,6 @@ function NewProduct() {
       }));
     }
     
-    // Очищаем ошибку при изменении поля
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -164,7 +208,6 @@ function NewProduct() {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Проверка типа файла
       if (!file.type.match(/image.*/)) {
         setErrors(prev => ({
           ...prev,
@@ -173,7 +216,6 @@ function NewProduct() {
         return;
       }
 
-      // Проверка размера файла (не более 5MB)
       if (file.size > 5 * 1024 * 1024) {
         setErrors(prev => ({
           ...prev,
@@ -182,13 +224,16 @@ function NewProduct() {
         return;
       }
 
+      // Создаем объект URL для предпросмотра
+      const previewUrl = URL.createObjectURL(file);
+      
       setFormData(prev => ({
         ...prev,
         image: file,
-        imagePreview: URL.createObjectURL(file)
+        imagePreview: previewUrl,
+        existingImage: ''
       }));
 
-      // Очищаем ошибку
       if (errors.image) {
         setErrors(prev => ({
           ...prev,
@@ -201,7 +246,6 @@ function NewProduct() {
   const handleCertificateChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Проверка типа файла (только PDF)
       if (file.type !== 'application/pdf') {
         setErrors(prev => ({
           ...prev,
@@ -210,7 +254,6 @@ function NewProduct() {
         return;
       }
 
-      // Проверка размера файла (не более 10MB для PDF)
       if (file.size > 10 * 1024 * 1024) {
         setErrors(prev => ({
           ...prev,
@@ -222,10 +265,10 @@ function NewProduct() {
       setFormData(prev => ({
         ...prev,
         certificate: file,
-        certificateName: file.name
+        certificateName: file.name,
+        existingCertificate: ''
       }));
 
-      // Очищаем ошибку
       if (errors.certificate) {
         setErrors(prev => ({
           ...prev,
@@ -239,10 +282,17 @@ function NewProduct() {
     setFormData(prev => ({
       ...prev,
       certificate: null,
-      certificateName: ''
+      certificateName: '',
+      existingCertificate: ''
     }));
-    // Очищаем поле файла
     document.getElementById('certificate').value = '';
+  };
+
+  const removeExistingCertificate = () => {
+    setFormData(prev => ({
+      ...prev,
+      existingCertificate: ''
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -255,11 +305,10 @@ function NewProduct() {
     setIsSubmitting(true);
 
     try {
-      // Создаем FormData для отправки файлов
       const formDataToSend = new FormData();
       
-      // Создаём объект с данными товара
       const productData = {
+        id: id,
         title: formData.title,
         description: formData.description,
         structure: formData.structure,
@@ -267,42 +316,76 @@ function NewProduct() {
         region: { id: formData.region },
         category: { id: formData.category },
         seller: { id: formData.seller.id },
-        local: formData.local || formData.region == getRegionIdByName(currentUser.region)
+        local: formData.local || formData.region == getRegionIdByName(currentUser?.region)
       };
 
-      // Добавляем JSON как отдельный part
       formDataToSend.append('product', new Blob([JSON.stringify(productData)], {
         type: 'application/json'
       }));
 
-      // Добавляем файлы
-      formDataToSend.append('image', formData.image);
+      if (formData.image) {
+        formDataToSend.append('image', formData.image);
+      }
+      
       if (formData.certificate) {
         formDataToSend.append('certificate', formData.certificate);
       }
 
-      const response = await ProductService.createProduct(formDataToSend);
+      if (!formData.existingImage && !formData.image) {
+        formDataToSend.append('removeImage', 'true');
+      }
+      
+      if (!formData.existingCertificate && !formData.certificate) {
+        formDataToSend.append('removeCertificate', 'true');
+      }
+
+      const response = await ProductService.updateProduct(id, formDataToSend);
       
       if (response.data) {
-        alert('Товар успешно добавлен!');
+        alert('Товар успешно обновлен!');
         navigate(`/showCatalog/${currentUser.id}`);
       }
     } catch (error) {
-      console.error('Ошибка при добавлении товара:', error);
-      alert('Произошла ошибка при добавлении товара. Пожалуйста, попробуйте снова.');
+      console.error('Ошибка при обновлении товара:', error);
+      alert('Произошла ошибка при обновлении товара. Пожалуйста, попробуйте снова.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // Функция для получения ID региона по названию
-const getRegionIdByName = (regionName) => {
-  const region = regions.find(r => 
-    r.name.toLowerCase().trim() === regionName.toLowerCase().trim()
-  );
-  
-  return region.id
-};
+  const getRegionIdByName = (regionName) => {
+    if (!regionName) return '';
+    const region = regions.find(r => 
+      r.name.toLowerCase().trim() === regionName.toLowerCase().trim()
+    );
+    return region ? region.id : '';
+  };
+
+  const getRegionName = (regionId) => {
+    const region = regions.find(r => r.id === regionId);
+    return region ? region.name : '';
+  };
+
+  // Очистка URL объектов при размонтировании
+  useEffect(() => {
+    return () => {
+      if (formData.imagePreview) {
+        URL.revokeObjectURL(formData.imagePreview);
+      }
+    };
+  }, [formData.imagePreview]);
+
+  if (isLoadingProduct) {
+    return (
+      <div className="back">
+        <Header />
+        <div className="add-product-container">
+          <div className="loading-spinner"></div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="back">
@@ -317,7 +400,7 @@ const getRegionIdByName = (regionName) => {
       
       <div className="add-product-container">
         
-        <h1 className="add-product-title">Добавление нового товара</h1>
+        <h1 className="add-product-title">Редактирование товара</h1>
         
         <form onSubmit={handleSubmit} className="add-product-form" encType="multipart/form-data">
           <div className="add-product-form-group">
@@ -445,18 +528,15 @@ const getRegionIdByName = (regionName) => {
               Регион происхождения товара {!formData.local && '*'}
             </label>
             {formData.local ? (
-              // Отображаем регион продавца в отдельном блоке, когда чекбокс включен
               <div className="add-product-region-display">
                 <div className="add-product-region-info">
                   <span className="add-product-region-value">
-                    {currentUser?.region}
+                    {currentUser?.region || getRegionName(formData.region)}
                   </span>
                   <span className="add-product-region-badge">Локальный продукт</span>
                 </div>
-                {/* <input type="hidden" name="region" value={getRegionIdByName(currentUser?.region)} /> */}
               </div>
             ) : (
-              // Отображаем селект, когда чекбокс выключен
               <>
                 <select
                   id="region"
@@ -486,6 +566,32 @@ const getRegionIdByName = (regionName) => {
             <label htmlFor="certificate" className="add-product-label">
               Сертификат соответствия (PDF)
             </label>
+            
+            {/* Отображение существующего сертификата с возможностью просмотра */}
+            {formData.existingCertificate && !formData.certificate && (
+              <div className="add-product-existing-file">
+                <div className="add-product-certificate-preview">
+                  <button
+                    type="button"
+                    onClick={() => openCertificate(formData.existingCertificate)}
+                    className="add-product-certificate-link"
+                    title="Просмотреть сертификат"
+                  >
+                    📄 Сертификат
+                  </button>
+                  <button
+                    type="button"
+                    onClick={removeExistingCertificate}
+                    className="add-product-certificate-remove"
+                    title="Удалить сертификат"
+                  >
+                    ×
+                  </button>
+                </div>
+              </div>
+            )}
+            
+            {/* Поле для загрузки нового сертификата */}
             <div className="add-product-file-upload">
               <input
                 type="file"
@@ -496,12 +602,12 @@ const getRegionIdByName = (regionName) => {
                 className={`add-product-file-input ${errors.certificate ? 'error' : ''}`}
               />
               <label htmlFor="certificate" className="add-product-file-label">
-                <span className="add-product-file-button">Выбрать сертификат</span>
-                <span className="add-product-file-name">
-                  {formData.certificateName || 'Файл не выбран'}
+                <span className="add-product-file-button">
+                  {formData.existingCertificate || formData.certificate ? 'Заменить сертификат' : 'Выбрать сертификат'}
                 </span>
               </label>
             </div>
+            
             {errors.certificate && (
               <span className="add-product-error-message">{errors.certificate}</span>
             )}
@@ -515,6 +621,7 @@ const getRegionIdByName = (regionName) => {
                   type="button" 
                   onClick={removeCertificate}
                   className="add-product-certificate-remove"
+                  title="Удалить"
                 >
                   ×
                 </button>
@@ -530,6 +637,30 @@ const getRegionIdByName = (regionName) => {
             <label htmlFor="image" className="add-product-label">
               Изображение товара *
             </label>
+            
+            {/* Отображение существующего изображения */}
+            {formData.existingImage && !formData.image && (
+              <div className="add-product-image-frame">
+                <img 
+                  src={formData.existingImage} 
+                  alt="Товар" 
+                  className="add-product-fit-image"
+                />
+              </div>
+            )}
+            
+            {/* Превью нового изображения */}
+            {formData.imagePreview && (
+              <div className="add-product-image-frame">
+                <img 
+                  src={formData.imagePreview} 
+                  alt="Preview" 
+                  className="add-product-fit-image"
+                />
+              </div>
+            )}
+            
+            {/* Кнопка замены изображения */}
             <div className="add-product-file-upload">
               <input
                 type="file"
@@ -540,9 +671,8 @@ const getRegionIdByName = (regionName) => {
                 className={`add-product-file-input ${errors.image ? 'error' : ''}`}
               />
               <label htmlFor="image" className="add-product-file-label">
-                <span className="add-product-file-button">Выбрать изображение</span>
-                <span className="add-product-file-name">
-                  {formData.image ? formData.image.name : 'Файл не выбран'}
+                <span className="add-product-file-button">
+                  {formData.existingImage || formData.image ? 'Заменить изображение' : 'Выбрать изображение'}
                 </span>
               </label>
             </div>
@@ -551,24 +681,13 @@ const getRegionIdByName = (regionName) => {
             )}
           </div>
 
-          {formData.imagePreview && (
-            <div className="add-product-image-preview">
-              <p className="add-product-preview-title">Предпросмотр изображения:</p>
-              <img 
-                src={formData.imagePreview} 
-                alt="Preview" 
-                className="add-product-preview-image"
-              />
-            </div>
-          )}
-
           <div className="add-product-buttons">
             <button 
               type="submit" 
               className="text add-product-submit-button"
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Добавление...' : 'Добавить товар'}
+              {isSubmitting ? 'Сохранение...' : 'Сохранить изменения'}
             </button>
             
             {currentUser && (<button 
@@ -587,4 +706,4 @@ const getRegionIdByName = (regionName) => {
   );
 }
 
-export default NewProduct;
+export default EditProduct;

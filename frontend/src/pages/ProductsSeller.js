@@ -6,7 +6,7 @@ import "./ProductsSeller.css"
 import { withRouter } from '../common/with-router';
 import Header from "../components/header.component";
 import CategoryService from "../services/category.service";
-import Category from "../components/Category"
+import userService from "../services/user.service";
 import Product from "../components/Product";
 import "../components/AllProducts.css";
 // import "./ProductsSeller.css";
@@ -20,6 +20,7 @@ function Home() {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [currentUser, setCurrentUser] = useState('');
+  const [seller, setSeller] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [localOnly, setLocalOnly] = useState(false); // чекбокс: true - только local, false - все
   const { id } = useParams();
@@ -50,8 +51,14 @@ function Home() {
     const getUser = async() => {
       const user = await AuthService.getCurrentUser();
       setCurrentUser(user);
-    }    
+    } 
     
+    const getSeller = async() => {
+        const res = await userService.getSellerById(id);
+        setSeller(res.data)
+    }
+    
+    getSeller()
     getUser();
     fetchProducts();
     fetchCategories();
@@ -131,6 +138,11 @@ function Home() {
         >
           Сбросить фильтры
         </button>
+        <div className="address-seller-group">
+            <div className="address-seller-display">
+              {`${seller?.region?.name || ''}, ${seller?.city || ''}, ${seller?.street || ''}, ${seller?.building || ''}`}
+            </div>
+          </div>
       </div>
 
       {/* Список товаров */}

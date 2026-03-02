@@ -1,5 +1,6 @@
 package ru.lazukserg.locavore.controllers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/order")
+@Slf4j
 public class OrderController {
 
   @Autowired
@@ -68,14 +70,19 @@ public class OrderController {
 
     var result = orderRepository.save(reservation);
     SimpleMailMessage simpleMail = MailUtils.createMail(order, result.getId(), false);
-    mailSender.send(simpleMail);
     SimpleMailMessage simpleMailToAdmin = MailUtils.createMail(order, result.getId(), true);
-    mailSender.send(simpleMailToAdmin);
+    try {
+      mailSender.send(simpleMail);
+      mailSender.send(simpleMailToAdmin);
+    } catch (Exception ex) {
+      log.error("Ошибка отправки сообщения по электронной почте. " + ex.getMessage());
+    }
+
     return result.getId();
   }
 
   @GetMapping("/all/{role}/{id}")
-  public List<ReservationDTO> allOrdersByBuyer(@PathVariable("role") String role, @PathVariable("id") Long id) {
+  public List<ReservationDTO> allOrdersByRole(@PathVariable("role") String role, @PathVariable("id") Long id) {
     List<Reservation> orders;
     if(role.equals("ROLE_BUYER")) {
       orders = orderRepository.findByBuyerId(id);

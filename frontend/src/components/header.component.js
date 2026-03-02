@@ -28,7 +28,7 @@ function Header() {
             <div className="header">
               <div>
                 <h1 className="title">"ЛОКАВОРСТВО"</h1>
-                <p className="subtitle">Для ценителей продукции с грядки и подворья</p>
+                <p className="subtitle">Для ценителей продукции со своей грядки</p>
               </div>
               <button className="auth-button">
               {!currentUser && (<Link className='auth-button-text' to={`/login`}>Авторизация</Link>)}

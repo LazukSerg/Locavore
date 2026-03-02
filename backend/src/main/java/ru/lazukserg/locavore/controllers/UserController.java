@@ -26,11 +26,19 @@ public class UserController {
   UserMapper userMapper;
 
   @GetMapping("/{id}")
-  public BuyerDTO getUser(@PathVariable("id") Long id) {
+  public BuyerDTO getBuyer(@PathVariable("id") Long id) {
       return buyerRepository.findById(id).stream()
               .map(user -> userMapper.toPl(user)).findFirst().orElseThrow(() -> new EntityNotFoundException(
             String.format("Пользователя с id %d не найден", id)
     ));
+  }
+
+  @GetMapping("/seller/{id}")
+  public SellerDTO getSeller(@PathVariable("id") Long id) {
+    return sellerRepository.findById(id).stream()
+            .map(user -> userMapper.toPl(user)).findFirst().orElseThrow(() -> new EntityNotFoundException(
+                    String.format("Пользователя с id %d не найден", id)
+            ));
   }
 
   @GetMapping("/all-seller")

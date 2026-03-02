@@ -47,7 +47,7 @@ function OrderForm(props) {
             setCurrentUser(fullUser.data)
         }
         const getSeller = async() => {
-            const res = await userService.getById(sellerId);
+            const res = await userService.getSellerById(sellerId);
             setSeller(res.data)
         }
         getSeller()
@@ -150,6 +150,18 @@ function OrderForm(props) {
                     <tr>
                         <td className="order-form-text-center order-form-user-key">Продавец</td>
                         <td className="order-form-text-center order-form-user-value">{seller && seller["username"]}</td>
+                    </tr>
+                    <tr>
+                      <td className="order-form-text-center order-form-user-key">Регион продавца</td>
+                      <td className="order-form-text-center order-form-user-value">
+                        {seller?.region?.name}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="order-form-text-center order-form-user-key">Адрес продавца</td>
+                      <td className="order-form-text-center order-form-user-value">
+                        {`${seller?.city}, ${seller?.street}, ${seller?.building}`}
+                      </td>
                     </tr>
                     <tr>
                         <td className="order-form-text-center order-form-user-key">Клиент</td>

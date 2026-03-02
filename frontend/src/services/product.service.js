@@ -17,6 +17,15 @@ class ProductService {
   createProduct(data) {
     return axios.post(API_PRODUCT_URL + `create`, data, { headers: authHeader() });
   }
+
+  updateProduct(id, data) {
+    return axios.put(API_PRODUCT_URL + `${id}`, data, { headers: authHeader() });
+  }
+
+  deleteProductById(id) {
+    return axios.delete(API_PRODUCT_URL + `${id}`,  { headers: authHeader() });
+  }
+
 }
 
 export default new ProductService();

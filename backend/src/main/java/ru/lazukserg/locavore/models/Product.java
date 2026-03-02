@@ -2,6 +2,7 @@ package ru.lazukserg.locavore.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.HashSet;
@@ -18,7 +19,6 @@ public class Product {
     @NotBlank
     private String title;
 
-    @NotBlank
     private String image;
 
     private String certificate;

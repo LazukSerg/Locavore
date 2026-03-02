@@ -8,6 +8,10 @@ class UserService {
     return axios.get(API_URL + "/" + id, null, { headers: authHeader() });
   }
 
+  getSellerById(id) {
+    return axios.get(API_URL + "/seller/" + id, null, { headers: authHeader() });
+  }
+
   getAllSellers() {
     return axios.get(API_URL + "/all-seller", null, { headers: authHeader() });
   }
