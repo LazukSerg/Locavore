@@ -15,7 +15,7 @@ public class Buyer extends User {
   public Buyer() {
   }
 
-  public Buyer(String username, String phoneNumber, String email, String password, Region region, Role role) {
-    super(username, phoneNumber, email, password, region, role);
+  public Buyer(String username, String phoneNumber, String email, String password, Region region, Role role, boolean isActive) {
+    super(username, phoneNumber, email, password, region, role, isActive);
   }
 }

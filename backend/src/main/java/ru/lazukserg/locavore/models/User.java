@@ -47,16 +47,19 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Role role = null;
 
+  private boolean active;
+
   public User() {
   }
 
-  public User(String username, String phoneNumber, String email, String password, Region region, Role role) {
+  public User(String username, String phoneNumber, String email, String password, Region region, Role role, boolean active) {
     this.username = username;
     this.phoneNumber = phoneNumber;
     this.email = email;
     this.password = password;
     this.region = region;
     this.role = role;
+    this.active = active;
   }
 
 }

@@ -1,0 +1,225 @@
+.admin-dashboard-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  min-height: calc(100vh - 200px);
+}
+
+.user-type-filter {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0 30px;
+  justify-content: center;
+}
+
+.filter-btn {
+  padding: 12px 30px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: #e2e8f0;
+  color: #4a5568;
+}
+
+.filter-btn:hover {
+  background-color: #cbd5e0;
+}
+
+.filter-btn.active {
+  background-color: rgba(221, 255, 0, 0.968);
+  color: rgb(42, 32, 32);
+  box-shadow: 0 2px 4px rgba(221, 255, 0, 0.3);
+}
+
+.users-list-container {
+  margin-top: 20px;
+}
+
+.users-list-container h3 {
+  margin-bottom: 20px;
+  color: #2d3748;
+  font-size: 1.3rem;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 10px;
+}
+
+.center {
+  text-align: center;
+  color: rgb(0, 0, 0);
+  text-shadow: 0 0 3px white, 0 0 10px white, 0 0 20px white, 0 0 20px white;
+}
+
+.users-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+.user-card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid #e0e0e0;
+}
+
+.user-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.user-card.blocked {
+  background-color: #fff5f5;
+  border-color: #feb2b2;
+  opacity: 0.8;
+}
+
+.user-card.blocked .user-info strong,
+.user-card.blocked .user-info .user-name-link {
+  color: #742a2a;
+}
+
+.user-info {
+  margin-bottom: 15px;
+}
+
+.user-info strong {
+  display: block;
+  font-size: 1.1rem;
+  color: #2d3748;
+  margin-bottom: 10px;
+}
+
+.user-name-link {
+  display: block;
+  font-size: 1.1rem;
+  color: #4299e1;
+  text-decoration: none;
+  margin-bottom: 10px;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.user-name-link:hover {
+  color: #2b6cb0;
+  text-decoration: underline;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.user-details span {
+  font-size: 0.9rem;
+  color: #4a5568;
+  line-height: 1.5;
+}
+
+/* Стили для статуса */
+.status {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+.status.active {
+  background-color: #c6f6d5;
+  color: #22543d;
+}
+
+.status.blocked {
+  background-color: #fed7d7;
+  color: #742a2a;
+}
+
+.user-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  padding-top: 15px;
+  border-top: 1px solid #edf2f7;
+}
+
+.block-btn, .unblock-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  flex: 1;
+  font-weight: 500;
+}
+
+.block-btn {
+  background-color: #f56565;
+  color: white;
+}
+
+.block-btn:hover:not(:disabled) {
+  background-color: #c53030;
+}
+
+.unblock-btn {
+  background-color: #48bb78;
+  color: white;
+}
+
+.unblock-btn:hover:not(:disabled) {
+  background-color: #38a169;
+}
+
+.block-btn:disabled, .unblock-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.no-users {
+  text-align: center;
+  padding: 40px;
+  background: white;
+  border-radius: 8px;
+  color: #718096;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Дополнительные стили для адреса */
+.user-address {
+  font-size: 0.85rem;
+  color: #4a5568;
+  margin-top: 5px;
+  padding: 5px;
+  background-color: #f7fafc;
+  border-radius: 4px;
+  line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  .users-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .user-card {
+    padding: 15px;
+  }
+  
+  .user-type-filter {
+    flex-direction: column;
+    padding: 0 20px;
+  }
+  
+  .filter-btn {
+    width: 100%;
+  }
+}

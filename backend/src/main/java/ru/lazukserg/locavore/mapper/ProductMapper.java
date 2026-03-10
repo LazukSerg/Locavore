@@ -53,7 +53,8 @@ public class ProductMapper {
                 seller,
                 category,
                 region,
-                productDTO.isLocal()
+                productDTO.isLocal(),
+                true
         );
     }
 

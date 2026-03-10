@@ -47,12 +47,15 @@ public class ProductController {
   @GetMapping("/all-by-seller/{id}")
   public List<ProductDTO> allProductsBySeller(@PathVariable("id") Long id) {
     List<Product> products = productRepository.findBySellerId(id);
-    return products.stream().map(product -> productMapper.toPl(product)).toList();
+    return products.stream()
+            .filter(Product::isActive)
+            .map(product -> productMapper.toPl(product)).toList();
   }
 
   @GetMapping("/{id}")
   public ProductDTO getProductById(@PathVariable("id") Long id) {
     return productRepository.findById(id)
+            .filter(Product::isActive)
             .map(productMapper::toPl)
             .orElseThrow(() -> new EntityNotFoundException("Товар с id " + id + " не найден"));
   }
@@ -93,7 +96,7 @@ public class ProductController {
 
   @DeleteMapping("/{id}")
   public ResponseEntity<Long> deleteProductById(@PathVariable("id") Long id) {
-    productRepository.deleteById(id);
+    productService.deleteProduct(id);
     return ResponseEntity.ok(id);
   }
 

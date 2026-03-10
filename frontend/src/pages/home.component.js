@@ -34,7 +34,7 @@ function Home() {
   useEffect(() => {
     const fetchSellers = async() => {
       try {
-        const res = await UserService.getAllSellers();
+        const res = await UserService.getAllSellersActive();
         setSellers(Array.isArray(res.data) ? res.data : []);
         setFilteredSellers(Array.isArray(res.data) ? res.data : []);
       } catch (error) {

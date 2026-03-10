@@ -18,6 +18,9 @@ import OrderInfo from "./pages/OrderInfo";
 import ShowCatalog from "./pages/ShowCatalog";
 import NewProduct from "./pages/NewProduct";
 import EditProduct from "./pages/EditProduct";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminProductInfo from "./pages/AdminProductInfo";
+import AdminSellerCatalog from "./pages/AdminSellerCatalog";
 
 function App() {
 
@@ -50,6 +53,9 @@ function App() {
             <Route path="/showCatalog/:id" element={<ShowCatalog />} />
             <Route path="/createProduct" element={<NewProduct />} />
             <Route path="/editProduct/:id" element={<EditProduct />} />
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/catalog/:id" element={<AdminSellerCatalog />} />
+            <Route path="/admin/infoProduct/:id" element={<AdminProductInfo />} />
           </Routes>
       </div>
     );

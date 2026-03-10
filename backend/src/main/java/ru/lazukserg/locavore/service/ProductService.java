@@ -107,6 +107,16 @@ public class ProductService {
         return updatedProduct.getId();
     }
 
+    public Long deleteProduct(Long id) {
+
+        Product existingProduct = productRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + id));
+        // Обновляем поля
+        existingProduct.setActive(false);
+        Product updatedProduct = productRepository.save(existingProduct);
+        return updatedProduct.getId();
+    }
+
     private void updateProductFields(Product product, ProductDTO dto) {
         Seller seller = sellerRepository.getReferenceById(dto.getSeller().getId());
         Category category = categoryRepository.getReferenceById(dto.getCategory().getId());

@@ -25,18 +25,21 @@ public class UserDetailsImpl implements UserDetails {
   private String email;
   private Region region;
 
+  private boolean active;
+
   @JsonIgnore
   private String password;
 
   private Collection<? extends GrantedAuthority> authorities;
 
-  public UserDetailsImpl(Long id, String username, String email, String password, Region region,
+  public UserDetailsImpl(Long id, String username, String email, String password, Region region, boolean active,
       Collection<? extends GrantedAuthority> authorities) {
     this.id = id;
     this.username = username;
     this.email = email;
     this.password = password;
     this.region = region;
+    this.active = active;
     this.authorities = authorities;
   }
 
@@ -51,6 +54,7 @@ public class UserDetailsImpl implements UserDetails {
         user.getEmail(),
         user.getPassword(),
         user.getRegion(),
+        user.isActive(),
         authorities);
   }
 
@@ -69,6 +73,10 @@ public class UserDetailsImpl implements UserDetails {
 
   public Region getRegion() {
     return region;
+  }
+
+  public boolean isActive() {
+    return active;
   }
 
   @Override

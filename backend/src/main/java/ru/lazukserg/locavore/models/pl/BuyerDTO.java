@@ -15,6 +15,7 @@ import java.util.List;
 public class BuyerDTO {
 
     private Long id;
+    private boolean active;
     private String username;
     private String email;
     private String phoneNumber;

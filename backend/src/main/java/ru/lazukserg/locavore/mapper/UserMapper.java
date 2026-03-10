@@ -13,6 +13,7 @@ public class UserMapper {
     public SellerDTO toPl(Seller seller) {
         var sellerDto = SellerDTO.builder()
                 .id(seller.getId())
+                .active(seller.isActive())
                 .username(seller.getUsername())
                 .phoneNumber(seller.getPhoneNumber())
                 .region(RegionDTO.builder()
@@ -45,6 +46,7 @@ public class UserMapper {
     public BuyerDTO toPl(Buyer buyer) {
         return BuyerDTO.builder()
                 .id(buyer.getId())
+                .active(buyer.isActive())
                 .username(buyer.getUsername())
                 .email(buyer.getEmail())
                 .phoneNumber(buyer.getPhoneNumber())

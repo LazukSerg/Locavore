@@ -61,8 +61,20 @@ class Login extends Component {
     if (this.checkBtn.context._errors.length === 0) {
       AuthService.login(this.state.email, this.state.password).then(
         (response) => { 
-          var isBuyer = response.role === "ROLE_BUYER"
-          this.props.router.navigate(isBuyer ? "/home" : `/showCatalog/${response.id}`);
+          var role = response.role;
+          switch(role) {
+            case 'ROLE_BUYER':
+              this.props.router.navigate('/home');
+              break;
+            case 'ROLE_SELLER':
+              this.props.router.navigate(`/showCatalog/${response.id}`);
+              break;
+            case 'ROLE_ADMIN':
+              this.props.router.navigate('/admin/dashboard');
+              break;
+            default:
+              this.props.router.navigate('/login');
+          }
           window.location.reload();
         },
         error => {

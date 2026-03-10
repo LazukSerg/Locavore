@@ -22,6 +22,7 @@ function Header() {
 
   const isBuyer = currentUser?.role === "ROLE_BUYER";
   const isSeller = currentUser?.role === "ROLE_SELLER";
+  const isAdmin = currentUser?.role === "ROLE_ADMIN";
 
   return (
           <div>
@@ -40,14 +41,17 @@ function Header() {
                 </button>
                 <div className="dropdown-content">
                   <Link className='dropdown-item' to={`/about`}>О НАС</Link>
-                  <Link className='dropdown-item' to={`/profile`}>МОЙ ПРОФИЛЬ</Link>
+                  {currentUser && !isAdmin && (<Link className='dropdown-item' to={`/profile`}>МОЙ ПРОФИЛЬ</Link>)}
                   {currentUser && isBuyer && (
                     <Link className='dropdown-item' to={`/home`}>КАТАЛОГ ПРОДУКЦИИ</Link>
                   )}
                   {currentUser && isSeller && (
                     <Link className='dropdown-item' to={`/showCatalog/${currentUser.id}`}>МОЙ КАТАЛОГ</Link>
                   )}
-                  {currentUser && (
+                  {currentUser && isAdmin && (
+                    <Link className='dropdown-item' to={`/admin/dashboard`}>СПИСОК ПОЛЬЗОВАТЕЛЕЙ</Link>
+                  )}
+                  {currentUser && !isAdmin &&(
                     <Link className='dropdown-item'
                     to={`/orders/${currentUser.id}` }>МОИ ЗАКАЗЫ</Link>
                   )}

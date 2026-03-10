@@ -77,6 +77,8 @@ public class WebSecurityConfig {
               .requestMatchers("/api/order/{id}").authenticated()
                   //создать заказ может только покупатель
               .requestMatchers("/api/order/create").hasRole("BUYER")
+              .requestMatchers("/api/user/all-seller").hasRole("ADMIN")
+              .requestMatchers("/api/user/all-buyer").hasRole("ADMIN")
               .requestMatchers("/api/user/**").permitAll()
               .anyRequest().authenticated()
         );

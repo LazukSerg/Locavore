@@ -12,13 +12,27 @@ class UserService {
     return axios.get(API_URL + "/seller/" + id, null, { headers: authHeader() });
   }
 
-  getAllSellers() {
-    return axios.get(API_URL + "/all-seller", null, { headers: authHeader() });
+  getAllSellersActive() {
+    return axios.get(API_URL + "/all-seller/active", null, { headers: authHeader() });
   }
 
-  getAdminBoard() {
-    return axios.get(API_URL + 'admin', { headers: authHeader() });
+  getAllSellers() {
+    return axios.get(API_URL + "/all-seller", { headers: authHeader() });
   }
+
+  getAllBuyer() {
+    return axios.get(API_URL + "/all-buyer", { headers: authHeader() });
+  }
+
+  blockUser(id) {
+    return axios.put(API_URL + `/block/${id}?active=false`, { headers: authHeader() });
+  }
+
+  unblockUser(id) {
+    return axios.put(API_URL + `/block/${id}?active=true`, { headers: authHeader() });
+  }
+
+  
 }
 
 export default new UserService();

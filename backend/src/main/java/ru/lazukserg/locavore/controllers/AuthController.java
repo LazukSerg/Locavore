@@ -53,7 +53,7 @@ public class AuthController {
   JwtUtils jwtUtils;
 
   @PostMapping("/signin")
-  public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+  public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
     Authentication authentication = authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
@@ -65,6 +65,12 @@ public class AuthController {
     String role = userDetails.getAuthorities().stream()
         .map(GrantedAuthority::getAuthority)
         .findFirst().get();
+
+    if(!userDetails.isActive()) {
+      return ResponseEntity
+              .badRequest()
+              .body(new MessageResponse("Ошибка: Пользователь заблокирован"));
+    }
 
     return ResponseEntity.ok(new JwtResponse(jwt, 
                          userDetails.getId(), 
@@ -79,10 +85,10 @@ public class AuthController {
     if (userRepository.existsByUsername(request.getUsername())) {
       return ResponseEntity
           .badRequest()
-          .body(new MessageResponse("Ошибка: такой имя уже используется!"));
+          .body(new MessageResponse("Ошибка: такое имя уже используется!"));
     }
 
-    if (userRepository.existsByEmail(request.getEmail())) {
+    if (userRepository.existsByEmailAndActive(request.getEmail(), false)) {
       return ResponseEntity
           .badRequest()
           .body(new MessageResponse("Ошибка: такой email уже используется!"));
@@ -103,6 +109,7 @@ public class AuthController {
                 encoder.encode(request.getPassword()),
                 sellerRole,
                 region,
+                true,
                 request.getSettlement(),
                 request.getStreet(),
                 request.getBuilding(),
@@ -120,7 +127,8 @@ public class AuthController {
                 request.getEmail(),
                 encoder.encode(request.getPassword()),
                 region,
-                buyerRole
+                buyerRole,
+                true
         );
         break;
 

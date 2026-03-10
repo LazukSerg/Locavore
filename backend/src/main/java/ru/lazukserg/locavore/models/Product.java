@@ -29,6 +29,8 @@ public class Product {
 
     private int price;
 
+    private boolean active;
+
     @ManyToOne
     @JoinColumn(name = "seller_id")
     private Seller seller;
@@ -53,7 +55,7 @@ public class Product {
         this.category = category;
     }
 
-    public Product(String title, String image, String certificate, String structure, String description, int price, Seller seller, Category category, Region region, boolean local) {
+    public Product(String title, String image, String certificate, String structure, String description, int price, Seller seller, Category category, Region region, boolean local, boolean active) {
         this.title = title;
         this.image = image;
         this.certificate = certificate;
@@ -64,6 +66,7 @@ public class Product {
         this.category = category;
         this.region = region;
         this.local = local;
+        this.active = active;
     }
 }
 

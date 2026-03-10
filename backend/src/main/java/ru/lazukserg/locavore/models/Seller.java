@@ -33,8 +33,8 @@ public class Seller extends User {
   public Seller() {
   }
 
-  public Seller(String username, String phoneNumber, String email, String password, Role role, Region region, String city, String street, String building, String firstName, String lastName) {
-    super(username, phoneNumber, email, password, region, role);
+  public Seller(String username, String phoneNumber, String email, String password, Role role, Region region, boolean isActive, String city, String street, String building, String firstName, String lastName) {
+    super(username, phoneNumber, email, password, region, role, isActive);
     this.city = city;
     this.street = street;
     this.building = building;
